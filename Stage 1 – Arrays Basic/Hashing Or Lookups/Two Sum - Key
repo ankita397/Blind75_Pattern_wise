@@ -1,1 +1,58 @@
+//https://leetcode.com/problems/two-sum/description/
 
+https://www.youtube.com/watch?v=UXDSeD9mN-k
+
+//Brute Force
+//TC = O(n^2)
+SC = O(1)
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int n = nums.length;
+        int[] res = new int[2];
+        for(int i = 0; i < n; i++){
+            for(int j = i+1; j < n; j++){
+                if(nums[i] + nums[j] == target){
+                    res[0] = i;
+                    res[1] = j;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//Optimal
+
+//use hash map to instantly check for difference value, map will add index of last occurrence of a num, don’t use same element twice.
+//if difference between target and current number is present among the map keys
+//if difference between target and current number is not present among the map keys, put the current number and its index in the map
+
+
+//Eg : nums = [2,7,11,15], target = 13
+//i = 0 , neededValue = 13 - 2 = 11 , map.put(2,0)
+//i = 1 , neededValue = 13 - 7 = 6 , map.put(7,1)
+//i = 2, neededValue = 13 - 11 = 2 , 2 is already present in map as key - map.containsKey(neededValue) == true
+//true -> resArr[0] = map.get(2) = 11 , resArr[1] = 2
+//map<element, index>
+
+//TC = O(n)
+//SC = O(n)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+       int[] resArr = new int[2];
+       HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+       for(int i = 0 ; i < nums.length; i++){
+            int neededValue = target - nums[i];
+           //if difference between target and current number is present among the map keys
+           if(map.containsKey(neededValue)){
+               resArr[0] = map.get(neededValue);//stores index of neededValue
+               resArr[1] = i;
+               return resArr;
+           }
+           //if difference between target and current number is not present among the map keys, put the current number and its index in the map
+           map.put(nums[i],i);// key = actual number(neededValue) and value = number index - VVIMP
+       }
+       return resArr; 
+    }
+}
