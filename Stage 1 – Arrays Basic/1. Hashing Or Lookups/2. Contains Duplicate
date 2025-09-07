@@ -6,6 +6,8 @@ https://www.youtube.com/watch?v=4oZsPXG9B94
 //Eg : Input: nums = [1,2,3,1]
 //Output: true
 
+Pattern Keyword : Duplicate => HashSet
+
 //Brute force
 //TC = O(n^2) - TLE
 //SC = O(1)
