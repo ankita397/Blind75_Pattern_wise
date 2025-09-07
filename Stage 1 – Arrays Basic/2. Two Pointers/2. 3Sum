@@ -1,0 +1,92 @@
+//https://leetcode.com/problems/3sum/description/
+
+//https://www.youtube.com/watch?v=DhFh8Kw7ymk&t=1186s
+
+Pattern : No duplicate => HashSet (Bruteforce)
+
+Constraint : 3 <= nums.length <= 3000 
+
+//Bruteforce - Check all combinations of 3 elements using 3 nested loops.
+             - Use a Set to avoid duplicate triplets.
+//TC = O(n^3) + O(klogk) ~ O(n^3)
+//SC = O(k), where k is the number of unique triplets found.
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> result = new HashSet<>();
+        int n = nums.length;
+        
+        for(int i = 0; i < n; i++){
+            for(int j = i+1; j < n; j++){
+                for(int k = j+1; k < n; k++){
+                    if(nums[i] + nums[j] + nums[k] == 0){
+                        List<Integer> tripletList = Arrays.asList(nums[i], nums[j], nums[k]);
+                        //sort before adding the triplets to set so that set will know when there is a duplicate triplet
+                        Collections.sort(tripletList);
+                        result.add(tripletList);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(result);
+    }
+}
+
+//Optimal : 2 pointer approach
+Sort the array first.
+Fix one element (say at index i).
+Use two pointers (left[i+1] and right[n-1]) to find pairs that sum to -nums[i].
+Skip duplicates to avoid repeated triplets [V.V.IMP] - ############   ############   ############   ############   ############   
+
+//TC : O(n^2) + O(nlogn) ~ O(n^2)
+//SC : O(k) where k is the no. of unique triplets) - This space is only used to store the answer. We are not using any extra space to solve this problem.
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        int n = nums.length;
+        
+        // Sort the array so we can use two pointers and easily skip duplicates
+        Arrays.sort(nums);
+
+        //Fix one element at i.
+        // Loop till n-2 because we need at least two elements after i to form a triplet
+        for (int i = 0; i < n - 2; i++) {
+            //Skip duplicate fixed elements to avoid duplicate triplets
+            //At i = 0, there are no previous elements
+            if(i > 0 && nums[i] == nums[i-1]){
+                continue;
+            }
+
+            //Use two pointers left and right now
+            int left = i + 1;
+            int right = n - 1;
+            while(left < right){
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if(sum == 0){
+                    //Found a triplet with sum = 0, so add to result
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    // Skip duplicates for the left pointer
+                    while(left < right && nums[left] == nums[left+1]){
+                        left++;
+                    }
+                    // Skip duplicates for the right pointer
+                    while(left < right && nums[right] == nums[right-1]){
+                        right--;
+                    }
+                    // Move both pointers inward after processing this triplet
+                    left++;
+                    right--;
+                }else if(sum < 0){
+                    // Sum too small, move left pointer right to increase sum
+                    left++;
+                }else{
+                    // Sum too large, move right pointer left to decrease sum
+                    right--;
+                }              
+            }
+        }
+        return result;
+    }
+}
