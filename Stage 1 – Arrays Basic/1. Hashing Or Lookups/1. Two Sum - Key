@@ -2,6 +2,8 @@
 
 https://www.youtube.com/watch?v=UXDSeD9mN-k
 
+Constraint : 2 <= nums.length <= 10^4
+
 //Brute Force
 //TC = O(n^2)
 SC = O(1)
