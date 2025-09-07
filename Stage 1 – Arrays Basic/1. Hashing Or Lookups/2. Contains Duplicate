@@ -8,6 +8,8 @@ https://www.youtube.com/watch?v=4oZsPXG9B94
 
 Pattern Keyword : Duplicate => HashSet
 
+Constraint : 1 <= nums.length <= 105
+
 //Brute force
 //TC = O(n^2) - TLE
 //SC = O(1)
