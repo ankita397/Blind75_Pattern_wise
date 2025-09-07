@@ -6,7 +6,6 @@ https://www.youtube.com/watch?v=jJXJ16kPFWg
 //Output: true
 //Explanation: "amanaplanacanalpanama" is a palindrome.
 
-
 Pattern keywords : String, palindrome => Two Pointers
 
 Constraint : 1 <= s.length <= 2 * 10 ^ 5
