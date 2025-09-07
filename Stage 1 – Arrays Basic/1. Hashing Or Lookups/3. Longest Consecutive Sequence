@@ -1,6 +1,10 @@
-//https://leetcode.com/problems/longest-consecutive-sequence/description/
+https://leetcode.com/problems/longest-consecutive-sequence/description/
 
 //https://www.youtube.com/watch?v=oO5uLE7EUlM&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=29
+
+Pattern Keyword : O(n)
+
+Constraint : 1 <= nums.length <= 10^5
 
 //Brute Force 
 TC = O(nlog(n))
