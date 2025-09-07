@@ -2,6 +2,8 @@
 
 https://www.youtube.com/watch?v=UXDSeD9mN-k
 
+Pattern Keywords : compliment number => Hashmap [Fast lookup]
+
 Constraint : 2 <= nums.length <= 10^4
 
 //Brute Force
