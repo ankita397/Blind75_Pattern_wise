@@ -2,7 +2,7 @@
 
 https://www.youtube.com/watch?v=UXDSeD9mN-k
 
-Pattern Keywords : compliment lookup/Find pair => Hashmap [Fast lookup]
+Pattern Keywords : compliment lookup, unsorted array + find pair => Hashmap [Fast lookup]
 
 Constraint : 2 <= nums.length <= 10^4
 
