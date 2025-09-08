@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=jJXJ16kPFWg
 
 Pattern keywords : String, palindrome => Two Pointers
 
-Constraint : 1 <= s.length <= 2 * 10 ^ 5 => O(n) should be ok
+Constraint : 1 <= s.length <= 2 * 10 ^ 5 => O(n)/O(nlogn) should be ok
 
 //Brute force - Remove non-alphanumeric characters and then reverse the string to check if palindrome.
 //TC = O(n)
