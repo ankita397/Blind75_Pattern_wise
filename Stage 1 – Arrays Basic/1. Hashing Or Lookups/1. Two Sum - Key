@@ -4,7 +4,7 @@ https://www.youtube.com/watch?v=UXDSeD9mN-k
 
 Pattern Keywords : compliment lookup, unsorted array + find pair with target => Hashmap [Fast lookup]
 
-Constraint : 2 <= nums.length <= 10^4 => O(n) should be ok
+Constraint : 2 <= nums.length <= 10^4 => O(n)/O(nlogn) should be ok
 
 //Brute Force
 //TC = O(n^2)
