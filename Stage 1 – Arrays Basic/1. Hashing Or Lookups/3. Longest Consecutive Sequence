@@ -4,7 +4,7 @@ https://leetcode.com/problems/longest-consecutive-sequence/description/
 
 Pattern Keyword : Unsorted array, You must write an algorithm that runs in O(n) time.
 
-Constraint : 1 <= nums.length <= 10^5
+Constraint : 1 <= nums.length <= 10^5 => O(n) should be ok
 
 //Brute Force 
 TC = O(nlog(n))
