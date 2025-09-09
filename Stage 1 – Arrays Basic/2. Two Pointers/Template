@@ -1,21 +1,21 @@
 Two Pointers for Sorted Array (No Sliding Window)
+---------------------------------------------------
 
 (Used for problems like finding pairs with sum k, merging arrays, removing duplicates)
 
-public boolean twoPointerSearch(int[] arr, int target) {
-    int left = 0, right = arr.length - 1;
+------------------------------------------------------------------------------------------
+    int left = 0, right = n - 1;
 
     while (left < right) {
-        int sum = arr[left] + arr[right];
-
-        if (sum == target) {
-            return true;
-        } else if (sum < target) {
+        // Evaluate some function or condition using nums[left] and nums[right]
+    
+        if (/* condition is satisfied */) {
+            // Process or return result
+        } else if (/* need to increase total */) {
             left++;
         } else {
-            right--;
+            right--;s
         }
     }
+------------------------------------------------------------------------------------------
 
-    return false;
-}
