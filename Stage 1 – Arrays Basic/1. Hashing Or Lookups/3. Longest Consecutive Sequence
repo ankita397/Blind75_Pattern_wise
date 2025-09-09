@@ -2,8 +2,8 @@ https://leetcode.com/problems/longest-consecutive-sequence/description/
 
 //https://www.youtube.com/watch?v=oO5uLE7EUlM&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=29
 
-Pattern Keyword : Unsorted array, You must write an algorithm that runs in O(n) time.
-
+Input : Array
+Keyword : Unsorted array, You must write an algorithm that runs in O(n) time.
 Constraint : 1 <= nums.length <= 10^5 => O(n)/O(nlogn) should be ok
 
 //Brute Force 
