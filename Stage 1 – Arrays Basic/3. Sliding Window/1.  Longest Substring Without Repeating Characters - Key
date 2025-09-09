@@ -1,1 +1,7 @@
+https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
+https://www.youtube.com/watch?v=-zSxTJkcdAo
+
+Input : String
+Keywords : substring => Sliding Window
+Constraints : 0 <= s.length <= 5 * 10^4 => O(n log n), O(n)
