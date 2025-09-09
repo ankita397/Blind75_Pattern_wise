@@ -1,0 +1,29 @@
+public int slidingWindowTemplate(String s) {
+    int[] freq = new int[128]; // ASCII character frequency
+    int left = 0, right = 0;
+    int result = 0; // This will vary depending on the problem
+    int condition = 0; // Used differently based on the problem
+
+    while (right < s.length()) {
+        char rChar = s.charAt(right);
+        freq[rChar]++;
+        
+        // Update condition if necessary
+        // e.g., for Longest Repeating Character Replacement: 
+        // condition = Math.max(condition, freq[rChar]);
+
+        // Shrink window if condition fails
+        while (/* condition fails */) {
+            char lChar = s.charAt(left);
+            freq[lChar]--;
+            left++;
+        }
+
+        // Update result
+        result = Math.max(result, right - left + 1); // or update differently for min problems
+
+        right++;
+    }
+
+    return result;
+}
