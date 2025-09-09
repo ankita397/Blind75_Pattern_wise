@@ -74,6 +74,9 @@ class Solution {
 
 //Optimal - Sliding window with 2 pointers (best)
 //using array for storing each character's index
+
+//TC = O(n)
+//SC = O(1)
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int n = s.length();
