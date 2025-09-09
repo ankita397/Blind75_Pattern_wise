@@ -7,7 +7,7 @@ https://www.youtube.com/watch?v=UuiTKBwPgAo
 //Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
 
 
-Input : Araay
+Input : Array
 Keywords : Find Pair for optimal solution => Two pointers
 Constraint : 2 <= n <= 10^5 => O(n log n), O(n) should be ok
 
