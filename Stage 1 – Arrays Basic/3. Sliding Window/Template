@@ -1,3 +1,31 @@
+Two Pointers on a Single Array (Sliding Window Style)
+-------------------------------------------------------
+
+Use when: You need to expand and contract a window to satisfy some condition (length, sum, unique chars, etc.)
+
+------------------------------------------------------------------------------------------
+int left = 0, right = 0;
+
+while (right < n) {
+    // 1. Expand the window by including nums[right]
+    // (e.g., update frequency/count/sum)
+    
+    // 2. While the window is invalid:
+    while (/* condition is violated */) {
+        // Shrink the window from the left
+        // (e.g., update frequency/count/sum)
+        left++;
+    }
+
+    // 3. Update result if needed
+    // e.g., maxLen = Math.max(maxLen, right - left + 1)
+
+    right++;
+}
+------------------------------------------------------------------------------------------
+
+
+//Specific to these 3 problems
 public int slidingWindowTemplate(String s) {
     int[] freq = new int[128]; // ASCII character frequency
     int left = 0, right = 0;
