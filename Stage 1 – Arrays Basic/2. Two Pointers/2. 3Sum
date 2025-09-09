@@ -2,8 +2,8 @@ https://leetcode.com/problems/3sum/description/
 
 //https://www.youtube.com/watch?v=DhFh8Kw7ymk&t=1186s
 
-Pattern : No duplicate => HashSet (Bruteforce)
-
+Input : Array
+Keywords : No duplicate => HashSet (Bruteforce)
 Constraint : 3 <= nums.length <= 3000 => O(n)/O(nlogn)/O(n^2) should be ok -  for this question O(n^2) is the most optimal
 
 //Bruteforce - Check all combinations of 3 elements using 3 nested loops.
