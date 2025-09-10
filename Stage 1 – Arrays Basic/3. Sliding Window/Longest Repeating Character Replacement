@@ -1,0 +1,92 @@
+https://leetcode.com/problems/longest-repeating-character-replacement/description/
+
+https://www.youtube.com/watch?v=_eNhaDCr6P0
+
+Input : String
+Keywords : substring, optimization => Sliding Window
+Constraints : 1 <= s.length <= 10^5 =>  O(n log n), O(n)
+
+
+//Brute force
+  - Iterate through all possible substrings of the input string.
+  - For each substring:
+      - Count the frequency of each character (since only uppercase letters, use size-26 array).
+      - Find the most frequent character in that substring.
+      - Calculate how many characters would need to be replaced to make all characters the same:
+          characters to replace = (substring length - max frequency).
+  - If the number of replacements needed is less than or equal to k, the substring is valid.
+  - Update the maximum length found so far.
+
+TC = O(n^2) * 26
+SC = O(1)
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int n = s.length();
+        int maxLength = 0;
+        for(int i = 0; i < n; i++){
+            int freq[] = new int[26]; //since s consists of only uppercase English letters.
+            int maxFreq = 0;
+            for (int j = i; j < n; j++){
+                freq[s.charAt(j) - 'A']++;
+                // find the max occuring character's length in current substring as we need to flip only that character
+                maxFreq = Math.max(maxFreq, freq[s.charAt(j) - 'A']);
+
+                int windowLength = j - i + 1;
+                int charsToChange = windowLength - maxFreq;
+
+                if(charsToChange <= k){
+                    maxLength = Math.max(maxLength, windowLength);
+                }
+            }
+        }
+        return maxLength;
+    }
+}
+
+//i = 0
+//j = 0, in substring A , maxCharFreq = 1, windowLength = 1 => charsToChange = 1-1 <=k , so maxLen = 1
+//j = 1, in substring AA , maxCharFreq = 2, windowLength = 2 => charsToChange = 2-2 <=k , so maxLen = 2
+//j = 2, in substring AAB , maxCharFreq = 2, windowLength = 3 => charsToChange = 3-2 <=k , so maxLen = 3
+//j = 3, in substring AABA , maxCharFreq = 3, windowLength = 4 => charsToChange = 4-3 <=k , so maxLen = 4
+//j = 4, in substring AABAB , maxCharFreq = 3, windowLength = 5 => charsToChange = 5-3 <=k , so maxLen = 4
+//j = 5, in substring AABABB , maxCharFreq = 3, windowLength = 6 => charsToChange = 6-3 <=k , break - i++
+
+
+//Optimal - Sliding windows
+    - Instead of checking all substrings, maintain a sliding window (left to right) and expand it as long as we can make 
+      all characters in the window the same by replacing at most k characters.
+    - We track the frequency of characters in the current window.
+    - If the number of characters to change (i.e. window size - max frequency) exceeds k, we shrink the window from the left.
+//TC = O(n)
+//SC = O(1)
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int n = s.length();
+        int maxLength = 0;
+        int freq[] = new int[26];
+        int maxFreq = 0;
+        int left = 0; 
+        int right = 0;
+
+        while(right < n){
+            //increment freq of current character
+            freq[s.charAt(right) - 'A']++;
+            maxFreq = Math.max(maxFreq , freq[s.charAt(right) - 'A']);
+
+            int windowLength = right - left + 1;
+            int charsToChange = windowLength - maxFreq;
+
+            if(charsToChange > k){ // invalid condition, reduce freq and shrink the window from left 
+                freq[s.charAt(left) - 'A']--;
+                left++;
+            }
+            // Update maxLength with the size of the current valid window
+            // We use (right - left + 1) directly since the window is adjusted to always be valid
+            // So we cannot use windowLength as current valid window may have been formed after a shrink
+            maxLength = Math.max(maxLength, right - left +1);
+            right++;
+        }
+
+        return maxLength;
+    }
+}
