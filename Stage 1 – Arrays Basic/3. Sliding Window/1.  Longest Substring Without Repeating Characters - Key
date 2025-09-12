@@ -6,7 +6,7 @@ Input : String
 Keywords : substring, optimization => Sliding Window
 Constraints : 0 <= s.length <= 5 * 10^4 => O(n log n), O(n)
 
-//Brute force
+//Brute force - Check every substring starting from each index and use a set to find the longest substring without repeating characters.
 //TC = O(n^2) // O(n*n*1) - O(1) for for accessing set
 //O(n) // set will have size n if all characters are unique in the string
 class Solution {
@@ -37,7 +37,9 @@ class Solution {
     }
 }
 
-//Better but slow (Interviewers do not prefer this)
+//Better but slow (Interviewers do not prefer this) - Use two pointers and a set to dynamically expand and shrink a window to maintain unique 
+//characters, updating max length as you go.
+
 //Uses Set - More intuitive
 //TC = O(n)
 //SC = O(n) // set will have size n if all characters are unique in the string
@@ -72,8 +74,10 @@ class Solution {
     }
 }
 
-//Optimal - Sliding window with 2 pointers (best)
-//using array for storing each character's index
+//Optimal - Sliding window with 2 pointers (best) - Track the last seen index of each character in an array and move the window’s start pointer 
+//forward to skip duplicates efficiently.
+
+//Uses array for storing each character's index
 
 //TC = O(n)
 //SC = O(1)
