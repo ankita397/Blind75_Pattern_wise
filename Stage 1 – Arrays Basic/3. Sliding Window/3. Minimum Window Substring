@@ -1,0 +1,124 @@
+https://leetcode.com/problems/minimum-window-substring/description/
+
+https://www.youtube.com/watch?v=WJaij9ffOIY
+
+Input : String
+Keywords : substring, optimization => Sliding Window
+Constraints :1 <= m, n <= 10^5 => O(n log n), O(n)
+
+//Brute force - Check every possible substring of s starting at each index to find the smallest one containing all characters of t.
+//TC = O(n^2)
+//SC = O(128)
+class Solution {
+    public String minWindow(String s, String t) {
+        int sLen = s.length();
+        int tLen = t.length();
+        String minWindow = "";
+        int minWindowLen = Integer.MAX_VALUE;
+        int sIndex = -1;
+        
+        // Edge cases: if s or t is empty, or t is longer than s, return empty string immediately
+        if (sLen == 0 || tLen == 0 || tLen > sLen) 
+            return "";
+
+        // Iterate through each character in s as a potential "start of a window"
+        for(int i = 0; i < sLen; i++){
+            int[] freqT = new int[128];
+
+            // Count how many times each character appears in t
+            for(int j = 0; j < tLen; j++){
+                freqT[t.charAt(j)]++;
+            }
+
+            int matchedCount = 0; // Number of characters matched so far
+
+            // Try to find a window starting at i that contains all chars of t
+            for(int j = i; j < sLen; j++){
+                char currentChar = s.charAt(j);
+
+                // Example: If t = "ABC" and freq['A'] = 1, freq['B'] = 1, freq['C'] = 1
+                // When we see 'A' in s and freq['A'] > 0, it means we still need 'A', so increase matchedCount
+                if(freqT[currentChar] > 0){
+                    matchedCount++;
+                }
+                // Then reduce freq['A'] by 1 because we found one 'A' already
+                freqT[currentChar]--;
+
+                // If all characters from t are matched, check window size
+                if(matchedCount == tLen){
+                    int windowLen = j - i + 1;
+                    if(windowLen < minWindowLen){
+                        minWindowLen = windowLen;// Update minimum window length found
+                        sIndex = i; // Update start index of min window
+                    }
+                    break;// Stop expanding the window from i
+                }
+            }
+        }
+        // If a valid window was found, return it, otherwise return empty string
+        minWindow = (sIndex == -1) ? "" : s.substring(sIndex, sIndex + minWindowLen);
+        return minWindow;
+    }
+}
+
+//Optimal approach : Sliding window with 2 pointers
+//Grow the window until it has all characters from t, then move the left side to make the window as small as possible while still keeping 
+//all those characters.
+
+//TC = O(n)
+//SC = O(128)
+
+class Solution {
+    public String minWindow(String s, String t) {
+        int sLen = s.length();
+        int tLen = t.length();
+        String minWindow = "";
+        int minWindowLen = Integer.MAX_VALUE;
+        int sIndex = -1;
+        int left = 0;
+        int right = 0;
+        int matchedCount = 0;
+
+         // Edge cases: if s or t is empty, or t is longer than s, return empty string immediately
+        if (sLen == 0 || tLen == 0 || tLen > sLen) 
+            return "";
+        
+        // Frequency array for characters in t
+        int[] freqT = new int[128];
+        for(int i = 0; i < tLen; i++){
+            freqT[t.charAt(i)]++;
+        }
+
+        while(right < sLen){
+            char currentChar = s.charAt(right); // character in s
+
+            // If current char is still needed to fulfill t, increase matchedCount
+            if(freqT[currentChar] > 0){
+                matchedCount++;
+            }
+            // Then reduce freq of that char by 1 because we found one it already
+            freqT[currentChar]--;
+
+             // Till all chars from t matched in current window
+            while(matchedCount == tLen){
+                int winLen = right - left + 1;
+                if(winLen < minWindowLen){
+                    minWindowLen = winLen;// Update minimum window length found
+                    sIndex = left;// Update start index of min window
+                }
+                 // Shrink window from left: restore/"put back" the frequency of the removed char in freqT
+                freqT[s.charAt(left)]++;
+
+                //If after restoring the frequency, the count of that character in freqT is greater than zero, it means you are now missing a needed character from the window.
+                //So, you decrement matchedCount to reflect that the window no longer satisfies the full requirement.
+                if(freqT[s.charAt(left)] > 0){
+                    matchedCount--;
+                }
+                left++;
+            }
+            right++;
+        }
+        minWindow = (sIndex == -1) ? "" : s.substring(sIndex, sIndex + minWindowLen);
+        return minWindow;
+    }
+}
