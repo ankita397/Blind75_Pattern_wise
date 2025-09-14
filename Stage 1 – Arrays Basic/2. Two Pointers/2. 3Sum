@@ -34,7 +34,7 @@ class Solution {
 //Optimal : 2 pointer approach
 Sort the array first.
 Fix one element (say at index i).
-Use two pointers (left[i+1] and right[n-1]) to find pairs that sum to -nums[i].
+Use two pointers (left[i+1] and right[n-1]) to find triplets that sum to 0.
 Skip duplicates to avoid repeated triplets [V.V.IMP] - ############   ############   ############   ############   ############   
 
 //TC : O(n^2) + O(nlogn) ~ O(n^2)
