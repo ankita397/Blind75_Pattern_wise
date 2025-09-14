@@ -6,7 +6,7 @@ https://www.youtube.com/watch?v=IRN1VcA8CGc
 //Output: true
 
 Input : String
-Keywords : substring, optimization => Sliding Window
+Keywords : anagram => freq Map / HashMap
 Constraints : 1 <= s.length, t.length <= 5 * 10^4 => O(n log n), O(n)
 
 
@@ -79,3 +79,30 @@ NOTE :
 Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
 
 Use a HashMap<Character, Integer> instead of arrays if inputs can include non-lowercase or non-English letters.
+
+//TC = O(n)
+//SC = O(n)
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length())
+            return false;
+
+        HashMap<Character, Integer> countMap = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char sc = s.charAt(i);
+            char tc = t.charAt(i);
+
+            countMap.put(sc, countMap.getOrDefault(sc, 0) + 1);
+            countMap.put(tc, countMap.getOrDefault(tc, 0) - 1);
+        }
+
+        for (int count : countMap.values()) {
+            if (count != 0)
+                return false;
+        }
+
+        return true;
+    }
+}
+
