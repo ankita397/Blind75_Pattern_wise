@@ -1,0 +1,91 @@
+https://leetcode.com/problems/group-anagrams/description/
+
+//https://www.youtube.com/watch?v=Fpedl1ZCSZk
+
+//Input: strs = ["eat","tea","tan","ate","nat","bat"]
+//Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+
+
+
+Input : String
+Keywords : anagram => freq Map / HashMap
+Constraints : 1 <= strs.length <= 104 => O(n log n), O(n)
+
+//Optimal 1 : Sort each word acc to characters — if two words have the same sorted form, they are anagrams, so we put them in the same group.
+//TC = O(n * klogk) - sorting is done
+//SC = O(n*k)
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        
+        // Loop through each word in the input array
+        for (String word : strs) {
+            // Convert the word to a char array to sort its characters
+            char[] chars = word.toCharArray();
+
+            // Sort the characters in the word
+            Arrays.sort(chars);
+            
+           // Convert the sorted char array back to a string
+            String sortedWord = new String(chars);
+
+            // Example:
+            // word = "eat" → chars = ['e','a','t'] → sorted = ['a','e','t'] → sortedWord = "aet"
+            // word = "tea" → sortedWord = "aet"
+            // word = "tan" → sortedWord = "ant"
+            
+            if (!map.containsKey(sortedWord)) {
+                map.put(sortedWord, new ArrayList<>());
+            }
+            
+            map.get(sortedWord).add(word);
+        }
+        
+        return new ArrayList<>(map.values());
+    }
+}
+
+//BEST
+//Optimal 2: for each of 26 chars, use count of each char in each word. Use StringBuilder to create unique hash that acts as key of map 
+              //and value will be the list of anagrams
+//TC : O(NK) ; N = length of strs array , K = max length of a string in strs
+//SC : O(NK)
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        
+        for(String word: strs){
+            int[] freq = new int[26]; // Frequency array for characters 'a' to 'z'
+
+            // Count the frequency of each character in the current word
+            for(char c : word.toCharArray()){
+                freq[c - 'a']++;
+            }
+
+            // Build a string key based on the frequency counts to uniquely represent the character composition
+            StringBuilder sb = new StringBuilder(); 
+            for(int count : freq){
+                sb.append("#");     // Delimiter to avoid ambiguity, e.g. "11" vs "1#1"
+                sb.append(count);
+            }
+
+            String key = sb.toString(); 
+            // Example: For "bat", freq = [1 (a), 1 (b), 1 (t), 0 ...], key = "#1#1#0#0#...#1#0..."
+
+            // If this key is not in the map, create a new list for this group of anagrams
+            // For example, when processing "bat", if key "#1#1#0#0#...#1#0..." doesn't exist,
+            // create a new list to hold all words with this frequency signature
+            if(!map.containsKey(key)){
+                map.put(key, new ArrayList<String>());
+            }
+
+            // Add the current word to the corresponding group based on the frequency key
+            map.get(key).add(word);
+        }
+
+        // Return all groups of anagrams as a list of lists
+        return new ArrayList<>(map.values());
+    }
+}
