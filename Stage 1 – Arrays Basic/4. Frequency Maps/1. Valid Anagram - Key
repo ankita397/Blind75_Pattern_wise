@@ -1,0 +1,75 @@
+//https://leetcode.com/problems/valid-anagram/description/
+
+https://www.youtube.com/watch?v=IRN1VcA8CGc
+
+//Input: s = "anagram", t = "nagaram"
+//Output: true
+
+Input : String
+Keywords : substring, optimization => Sliding Window
+Constraints : 0 <= s.length <= 5 * 10^4 => O(n log n), O(n)
+
+
+//Brute force - Check if every character appears the same number of times in both strings.
+//TC : O(n^2)
+//SC : O(1)
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        int sLen = s.length();
+        int tLen = t.length();
+
+        if(sLen != tLen)
+            return false;
+
+        for(char c : s.toCharArray()){ // we know sLen == tLen
+            int charCountInS = countOccurences(s, c);
+            int charCountInT = countOccurences(t, c);
+
+            if(charCountInS != charCountInT){
+                return false;
+            }
+        }
+        return true;
+    }
+    // Helper method to count how many times character c appears in str
+    private int countOccurences(String str, char c){
+        int count = 0;
+        for(char ch : str.toCharArray()){
+            if(ch == c){
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+//Optimal - Increase counts for characters in s, decrease for t, and check if all counts return to zero to confirm an anagram.
+
+//TC = O(n)
+//SC = O(26) ~ O(1)
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        int sLen = s.length();
+        int tLen = t.length();
+
+        if(sLen != tLen)
+            return false;
+
+        int[] freq = new int[26];
+
+        for(int i = 0; i < sLen; i++){ // Increment
+            freq[s.charAt(i) - 'a']++;
+        }
+
+        for(int i = 0; i < tLen; i++){ // Decrement
+            freq[t.charAt(i) - 'a']--;
+        }
+        
+        for(int i = 0; i < 26; i++){ //After Increment and Decrement, count of each char in freq[] should be 0
+            if(freq[i] != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
