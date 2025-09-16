@@ -1,0 +1,19 @@
+Map<String, Integer> freq = new HashMap<>();
+
+// Count elements (chars or strings)
+for (String elem : collection1) {
+    freq.put(elem, freq.getOrDefault(elem, 0) + 1);
+}
+
+// Validate or match elements in collection2
+for (String elem : collection2) {
+    if (!freq.containsKey(elem) || freq.get(elem) == 0) {
+        // Handle mismatch case (e.g., return false)
+    } else {
+        freq.put(elem, freq.get(elem) - 1);
+    }
+}
+
+
+For characters, just replace String with Character and adjust loops accordingly.
+Works great for things like valid anagram, group anagrams, frequency validation, etc.
