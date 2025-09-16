@@ -1,0 +1,108 @@
+https://leetcode.com/problems/maximum-subarray/description/
+
+https://www.youtube.com/watch?v=AHZpyENo7k4
+
+
+Input : Array
+Keywords : maximise sum, contiguous subarray, with no constraints on size, value, or content. => Kadane's  
+          [Sliding window should not be used here because this has no constraints or conditions like find max sum of subarray where sum <= X or
+          Maximum Sum of Subarray of Size K]
+Constraints: 1 <= nums.length <= 10^5 => O(n) , O(nlogn)
+
+//Brute Force - find the sum of all all sub arrays from i to j ############### [SKIP THIS AND START WITH BETTER DIRECTLY]
+//TC = O(n^3)
+//SC = O(1)
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int maxSum = Integer.MIN_VALUE;
+       
+        for(int i = 0; i < n ; i++){
+            for(int j = i; j < n; j++){
+                int sum = 0;
+                for(int k = i; k <= j; k++){
+                    sum = sum + nums[k];
+                }
+                maxSum = Math.max(maxSum, sum);
+            }
+        }
+        return maxSum;
+    }
+}
+
+//Better - just add the next element as it comes to extent the subarray instead of adding overlapping subarrays repeatedly
+//TC = O(n^2)
+//SC = O(1)
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int maxSum = Integer.MIN_VALUE;
+       
+        for(int i = 0; i < n ; i++){
+            int sum = 0;
+            for(int j = i; j < n; j++){
+                sum = sum + nums[j];     
+                maxSum = Math.max(maxSum, sum);
+            }
+        }
+        return maxSum;
+    }
+}
+
+//Optimal - Kadane's - Finds the largest sum of any continuous part of an array by adding numbers one by one and 
+                      resets the sum to 0 when it becomes negative.
+//TC = O(n)
+//SC = O(1)
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int maxSum = Integer.MIN_VALUE;
+        int sum = 0;
+
+        for(int i = 0; i < n; i++){
+            sum = sum + nums[i];
+            maxSum = Math.max(maxSum, sum); // if(sum > maxSum){ maxSum = Math.max(maxSum, sum); }
+            if(sum < 0){              
+                sum = 0;
+            }         
+        }
+        return maxSum;
+    }
+}
+
+
+//Follow up - if asked to print the subarray
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int maxSum = Integer.MIN_VALUE;
+        int sum = 0;
+
+        int startingIndex = 0;
+        int maxStartingIndex = 0;
+        int maxEndingIndex = 0;
+
+        for(int i = 0; i < n; i++){
+            sum = sum + nums[i];
+            if(sum > maxSum){  // Update max if the current sum is greater and track the subarray's start/end
+                maxSum = Math.max(maxSum, sum);
+                maxStartingIndex = startingIndex;
+                maxEndingIndex = i;
+            }
+            
+
+            if(sum < 0){              
+                sum = 0;
+                startingIndex = i + 1;
+            }         
+        }
+        // Print the maximum subarray
+        System.out.print("Max Subarray: [");
+        for (int k = maxStartingIndex; k <= maxEndingIndex; k++) {
+            System.out.print(nums[k]);
+            if (k < maxEndingIndex) System.out.print(", ");
+        }
+        System.out.println("]");
+        return maxSum;
+    }
+}
