@@ -69,7 +69,7 @@ class Solution {
 }
 
 
-//Additonal - prefix/suffix soluiton
+//Additonal - prefix/suffix soluiton [EASIEST]
 
 //Optimal - Prefix & suffix product [BEST]
 //Case 1: all elements are positive -> maxProd will be product of all elements
@@ -77,7 +77,8 @@ class Solution {
 //Case 3: odd number of negative elements in nums -> maxProd will be the maximum product after removing one negative number (either prefix up to first negative or suffix after last negative) - removing one negative number will make the product positive since there will be even number of negatives left
 //Case 4: One or more elements are 0 -> reset product to 1 when 0 is encountered to start a new subarray, as any product involving 0 is 0 and cannot contribute to max product
 
-//TC = O(n), SC = 1
+//TC = O(n)
+//SC = 1
 class Solution {
     public int maxProduct(int[] nums) {
         int n = nums.length;
