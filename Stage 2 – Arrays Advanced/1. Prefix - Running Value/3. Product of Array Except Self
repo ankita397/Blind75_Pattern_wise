@@ -66,23 +66,24 @@ Follow up: Can you solve the problem in O(1) extra space complexity? (The output
 
 //TC = O(n) 
 //SC = O(1)
-class Solution { 
+class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int[] output = new int[nums.length];
-        output[0] = 1;
-        for(int i = 1; i < nums.length; i++){// use output array for all left products
-           output[i] = nums[i-1] * output[i-1];
-           //System.out.println("Left :"+ output[i]);
-        }
-        
-        int right_products  = 1;
-        for(int i = nums.length-1; i >= 0; i--){// use variable for all right products
-          output[i] = output[i] * right_products;
-          right_products = right_products * nums[i]; // when calculating the right products, 
-//we can use a single variable (right_products) because we’re processing the array in reverse.
-          //System.out.println("Right :"+ output[i]);
+        int n = nums.length;
+        int answer[] = new int[n];
+        int[] leftProduct = new int[n];
+        int rightProduct = 1;
+
+        // Step 1: Compute prefix product for each index 
+        leftProduct[0] = 1;
+        for(int i = 1; i < n; i++){
+            leftProduct[i] = leftProduct[i-1] * nums[i-1];
         }
 
-        return output;
+        // Step 2: Compute suffix product for each index 
+        for(int i = n-1; i >= 0; i--){
+            answer[i] = leftProduct[i] * rightProduct;
+            rightProduct = rightProduct * nums[i];
+        }   
+        return answer;
     }
 }
