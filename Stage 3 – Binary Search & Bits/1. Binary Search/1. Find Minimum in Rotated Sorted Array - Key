@@ -6,6 +6,8 @@ Input : Array
 Keywords : sorted array => Binary Search
 Constraints : 1 <= n <= 5000 => Generally O(n log n), O(n) but binary search takes O(log n)
 
+*** Ask is to solve in O(log n) time complexity.
+
 //Bruteforce - Traverse all elements and find min
 //TC = O(n)
 //SC = O(1)=>
