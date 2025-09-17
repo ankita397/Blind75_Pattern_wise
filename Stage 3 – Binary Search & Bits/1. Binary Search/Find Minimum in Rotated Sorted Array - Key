@@ -50,6 +50,15 @@ class Solution {
 }
 
 //If array has duplicates
+// When nums[low] == nums[mid] == nums[high], we can't determine which side is sorted,
+    // so we reduce the search space by moving `low` or `high`.
+    if (nums[low] == nums[mid] && nums[mid] == nums[high]) {
+        low++;
+        high--;
+    }
+
+
+
 //TC = O((n) - worst case
 //TC = O(log n) - best case
 //SC = O(1)
