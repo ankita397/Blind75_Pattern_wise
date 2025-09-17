@@ -1,4 +1,12 @@
+https://leetcode.com/problems/search-in-rotated-sorted-array/description/
 
+https://www.youtube.com/watch?v=5qGrJbHhqFs
+
+Input : Array
+Keywords : sorted array => Binary Search
+Constraints : 1 <= nums.length <= 5000 => Generally O(n log n), O(n) but binary search takes O(log n)
+
+*** Ask is to solve in O(log n) time complexity.
 
 //Bruteforce - traverse the array and search for target. Return its index if found or return -1;
 //TC = O(n)
@@ -12,5 +20,41 @@ class Solution {
             }
         }
         return index;
+    }
+}
+
+//Optimal - Binary search
+//TC = O(log n)
+//SC = O(1)
+class Solution {
+    public int search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length -1;
+
+        while(low <= high){
+            int mid = (low+high)/2;
+
+            //Target found
+            if(nums[mid] == target){
+                return mid;
+            }
+            // Check if the left half is sorted (from low to mid)
+            if(nums[low] <= nums[mid]){
+                // If target lies between nums[low] and nums[mid], it must be in the left half
+                if(target >= nums[low] && target <= nums[mid]){ 
+                    high = mid - 1; // Narrow search to the left half (from low to mid-1)
+                }else{
+                    low = mid + 1; // Narrow search to the right half (from mid+1 to high)
+                }
+            }else{ // The right half is sorted (from mid to high)
+                 // If target lies between nums[mid] and nums[high], it must be in the right half
+                if(target >= nums[mid] && target <= nums[high]){
+                    low = mid + 1; // Narrow search to the right half (from mid+1 to high)
+                }else{
+                    high = mid - 1; // Narrow search to the left half (from low to mid-1)
+                }
+            }
+        }
+        return -1;
     }
 }
