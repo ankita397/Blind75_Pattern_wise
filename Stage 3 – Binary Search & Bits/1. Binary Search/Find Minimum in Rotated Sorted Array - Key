@@ -1,1 +1,89 @@
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
 
+https://www.youtube.com/watch?v=nhEMDKMB44g
+
+Input : Array
+Keywords : sorted array => Binary Search
+Constraints : 1 <= n <= 5000 => Generally O(n log n), O(n) but binary search takes O(log n)
+
+//Bruteforce - Traverse all elements and find min
+//TC = O(n)
+//SC = O(1)=>
+class Solution {
+    public int findMin(int[] nums) {
+        int min = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] < min){
+                min = nums[i];
+            }
+        }
+        return min;
+    }
+}
+
+
+//Optimal - Binary search
+//TC = O(logn)
+//SC = O(1)
+class Solution {
+    public int findMin(int[] nums) {
+        int low = 0;
+        int high = nums.length-1;
+        int min = Integer.MAX_VALUE;
+        while(low <= high){
+            int mid = (low+high)/2;
+            
+            //left half is still sorted after rotation
+            if(nums[low] <= nums[mid]){
+                //We know that nums[low] is the smallest value in the left sorted part, so we compare min with nums[low] and update it if necessary.
+                min = Math.min(min, nums[low]);
+                low = mid+1; //As min lies on the other side (right side)
+            //right half is still sorted after rotation
+            }else{                
+                //We know that nums[mid] is the smallest value in the right sorted part, so we compare min with nums[mid] and update it if necessary.
+                min = Math.min(min, nums[mid]);
+                high = mid-1;//As min lies on the other side (left side)
+            }
+        }
+        return min;
+    }
+}
+
+//If array has duplicates
+//TC = O((n) - worst case
+//TC = O(log n) - best case
+//SC = O(1)
+class Solution {
+    public int findMin(int[] nums) {
+        int low = 0;
+        int high = nums.length - 1;
+        int min = Integer.MAX_VALUE;
+
+        // Binary search to find the smallest element
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // Left half is sorted
+            if (nums[low] <= nums[mid]) {
+                // We know that the smallest value in the left sorted part is nums[low]
+                min = Math.min(min, nums[low]);
+                low = mid + 1; // Min must lie in the right half
+            }
+            // Right half is sorted
+            else {
+                // We know that the smallest value in the right sorted part is nums[mid]
+                min = Math.min(min, nums[mid]);
+                high = mid - 1; // Min must lie in the left half
+            }
+
+            // When nums[low] == nums[mid] == nums[high], we can't determine which side is sorted,
+            // so we reduce the search space by moving `low` or `high`.
+            if (nums[low] == nums[mid] && nums[mid] == nums[high]) {
+                low++;
+                high--;
+            }
+        }
+
+        return min;
+    }
+}
