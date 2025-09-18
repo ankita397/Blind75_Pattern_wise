@@ -24,7 +24,7 @@ class Solution {
 }
 
 
-//Optimal
+//Optimal -> n & (n-1) turns off the last set bit (removes the last 1 bit/ set bit) and then we count that set bit.
 //TC = O(1) - while loop does not run through all numbers till n as we modify n
 //SC = O(1)
 
