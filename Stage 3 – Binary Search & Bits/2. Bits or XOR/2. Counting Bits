@@ -1,0 +1,42 @@
+https://leetcode.com/problems/counting-bits/description/
+
+https://www.youtube.com/watch?v=J1hCybwTVVE
+
+//Brute force
+//TC = O(nlogn)
+//SC = O(n+1) ~ O(n)
+class Solution {
+    public int[] countBits(int n) {
+        int[] ans = new int[n+1];
+        for(int i = 0; i <= n; i++){
+            int count = 0;
+            int num = i;
+            while(num > 0){
+                num = num & (num-1);
+                count++;
+            }
+            ans[i] = count;
+        }
+        return ans;
+    }
+}
+
+
+//Optimal
+//TC = O(n)
+//SC = O(n+1) ~ O(n)
+class Solution {
+    public int[] countBits(int n) {
+        int[] ans = new int[n + 1];
+        // Start from 1 because ans[0] is already 0 (no set bits in 0)
+        for (int i = 1; i <= n; i++) {
+            // i >> 1 is i divided by 2, which effectively removes the least significant bit (rightmost bit)
+            // ans[i >> 1] is the count of set bits in i without the least significant bit
+            // (i & 1) checks if the least significant bit is 1 (odd number) or 0 (even number)
+            // Add these two to get the count of set bits for i
+           
+            ans[i] = ans[i >> 1] + (i & 1);
+        }
+        return ans;
+    }
+}
