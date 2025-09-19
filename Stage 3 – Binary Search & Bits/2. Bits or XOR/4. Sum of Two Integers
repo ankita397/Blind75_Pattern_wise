@@ -1,0 +1,20 @@
+https://leetcode.com/problems/sum-of-two-integers/description/
+
+Input : int
+Keyword : bit => Bit manipulation,without using the operators + and -.
+Constraints : -1000 <= a, b <= 1000
+
+//TC = O(1)
+//SC = O(1)
+class Solution {
+    public int getSum(int a, int b) {
+        while (b != 0) {
+            int sumWithoutCarry = a ^ b;      // Add bits where only one bit is set
+            int carry = (a & b) << 1;         // Carry bits, shifted left
+
+            a = sumWithoutCarry;               // Update a to sum without carry
+            b = carry;                        // Update b to carry
+        }
+        return a;
+    }
+}
