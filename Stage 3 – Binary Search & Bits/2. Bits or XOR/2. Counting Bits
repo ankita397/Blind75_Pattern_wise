@@ -2,6 +2,10 @@ https://leetcode.com/problems/counting-bits/description/
 
 https://www.youtube.com/watch?v=J1hCybwTVVE
 
+Input : int
+Keyword : bit => Bit manipulation
+Constraints : 0 <= n <= 10^5
+
 //Brute force
 //TC = O(nlogn)
 //SC = O(n+1) ~ O(n)
