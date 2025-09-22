@@ -3,7 +3,7 @@
 https://www.youtube.com/watch?v=UXDSeD9mN-k
 
 Input : array
-Keywords : compliment lookup, unsorted array + find pair with target => Hashmap [Fast lookup]
+Keywords : compliment lookup, unsorted array + find pair/triplet with target => Hashmap [Fast lookup]
 Constraint : 2 <= nums.length <= 10^4 => O(n)/O(nlogn) should be ok
 
 //Brute Force
