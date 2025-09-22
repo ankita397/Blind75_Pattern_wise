@@ -1,0 +1,64 @@
+https://leetcode.com/problems/valid-parentheses/description/
+
+https://www.youtube.com/watch?v=wkDfsKijrZ8
+
+Input : string
+Keywords : parenthesis, brackets => stack
+Constraints : 1 <= s.length <= 10^4 => O(n) or O(nlogn)
+
+//Bruteforce - Just look for pairs together and keep removing them. If all get removed and string becomes empty, then valid
+//TC = O(n^2) - O(n) per replace × O(n/2 replacements) = O(n^2) [In the worst case, we remove only one pair at a time, and there can be up to n/2 pairs]
+//SC = O(n) - replace() creates a new string each time
+class Solution {
+    public boolean isValid(String s) {
+        if(s == null || s.length() % 2 != 0){
+            return false;
+        }
+        
+        while(!s.isEmpty()){
+            if(!s.contains("()") && !s.contains("{}") && !s.contains("[]")){ //inner most bracket will not have open and close together -> invalid
+                break;
+            }
+            if(s.contains("()")){
+                s = s.replace("()", "");
+            }if(s.contains("{}")){
+                s = s.replace("{}", "");
+            }if(s.contains("[]")){
+                s = s.replace("[]", "");
+            }
+        }
+        return s.isEmpty();
+    }
+}
+
+//Optimal - Use a stack to keep track of open brackets, and for each closing bracket, check if it matches the last opened one; 
+//the string is valid if the stack is empty at the end.  
+//TC = O(n)
+//SC = O(n)
+class Solution {
+    public boolean isValid(String s) {
+        if(s.length() % 2 != 0){
+            return false;
+        }
+        Stack<Character> stack = new Stack<>();
+        for(char currCharInString : s.toCharArray()){
+            if(currCharInString == '(' || currCharInString == '{' || currCharInString == '['){
+                stack.push(currCharInString);
+            }else{
+                if(stack.isEmpty()){
+                    return false;
+                }else{
+                    char topCharacter = stack.peek();
+                    if(topCharacter == '(' && currCharInString == ')' ||
+                        topCharacter == '{' && currCharInString == '}' ||
+                        topCharacter == '[' && currCharInString == ']'){
+                            stack.pop();
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+}
