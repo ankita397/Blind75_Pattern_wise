@@ -1,0 +1,81 @@
+https://leetcode.com/problems/palindromic-substrings/description/
+
+Input : String
+Keywords : palindrome => two pointers
+Constraints : 1 <= s.length <= 1000 => O(n²), O(n log n), O(n)
+
+//Brute Force -  no need to code
+//Generate all substrings and check for palindromes. 
+//The key idea behind checking if a string (or a substring) is a palindrome is to compare the characters at the outermost positions first, 
+and then move inward to check the next pair of characters, and so on.
+
+TC : O(n³), 
+SC : O(1)  // we just return count and not substring
+
+class Solution {
+    public int countSubstrings(String s) {
+        int n = s.length();
+        if(s == null || n == 0)
+            return 0;
+
+        int count = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = i; j < n ; j++){
+                if(isPalindrome(i, j, s)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private boolean isPalindrome(int left, int right, String s){
+        while(left < right){
+            if(s.charAt(left) != s.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+
+//Optimal - Two pointers (expand center)
+// Start from center and move to left and right to check for palindromes 
+// For odd-length palindromes: Consider the current character as the center
+// For even-length palindromes: Consider the current and next character as the center
+
+//TC = O(n^2)
+//SC = O(1)
+class Solution {
+    public int countSubstrings(String s) {
+        int n = s.length();
+        if(s == null || n == 0)
+            return 0;
+
+        int count = 0;
+        for(int i = 0; i < n; i++){
+
+           //both odd-length and even-length palindromic substrings are valid, and we want to count all 
+           //palindromic substrings in the string(regardless of their length). So add both oddCount and evenCount to our total count.
+           int oddCount = expandAndGetCount(i, i, s);
+           count = count + oddCount;
+           
+           int evenCount = expandAndGetCount(i, i+1, s);
+           count = count + evenCount;
+        }
+        return count;
+    }
+
+    private int expandAndGetCount(int left, int right, String s){
+        int count = 0;
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+            count++;
+
+            left--;
+            right++;
+        }
+        return count;
+    }
+}
