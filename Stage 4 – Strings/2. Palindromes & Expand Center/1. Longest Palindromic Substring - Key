@@ -63,6 +63,10 @@ class Solution {
         String longestPalindrome = "";  // store the longest palindrome found
 
         for (int center = 0; center < n; center++) {
+
+          //both odd-length and even-length palindromic substrings are valid, and we want to consider all 
+           //palindromic substrings in the string(regardless of their length). So compare both palindromeOdd and palindromeEven to our longestPalindrome.
+            
             // Odd-length palindrome
             String palindromeOdd = expandAndGetPalindrome(s, center, center);
             if (palindromeOdd.length() > longestPalindrome.length()) {
