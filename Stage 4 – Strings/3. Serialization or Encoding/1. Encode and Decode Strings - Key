@@ -1,1 +1,61 @@
+https://www.geeksforgeeks.org/problems/encode-and-decode-strings/1
 
+CHATGPT
+
+Input : String
+Keyword : Encode/Decode
+Constraints : 1<=s.size()<=100 => O(n²), O(n log n), O(n)
+
+Encode
+//TC : O(m)
+//SC : O(m+n)
+
+Decode
+//TC : O(m)
+//SC : O(m+n)
+Where:
+n = number of strings
+m = total characters in all strings combined
+
+class Solution {
+
+    public String encode(String s[]) {
+        // write your logic to encode the strings
+        StringBuilder sb = new StringBuilder();
+        for(String str : s){
+            sb.append(str.length());
+            sb.append("#");
+            sb.append(str);
+        }
+        return sb.toString();
+    }
+
+    public String[] decode(String s) {
+        List<String> strList = new ArrayList<>();
+        int i = 0;
+        
+        while (i < s.length()) {
+            int j = i;
+    
+            // Move j till you find the '#' delimiter
+            while (s.charAt(j) != '#') {
+                j++; 
+            }
+            //Now j is at the position of '#' (index of '#' = j)
+
+            // Extract the number (length of the next string)
+            int strLen = Integer.parseInt(s.substring(i, j));
+            j++; // Move past '#'
+    
+            // Extract the actual string
+            String str = s.substring(j, j + strLen);
+            strList.add(str);
+    
+            // Move to the start of the next encoded string
+            i = j + strLen;
+        }
+    
+        return strList.toArray(new String[0]);
+    }
+
+}
