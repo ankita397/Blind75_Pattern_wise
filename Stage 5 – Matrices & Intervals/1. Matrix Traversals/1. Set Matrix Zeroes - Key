@@ -3,8 +3,8 @@ https://leetcode.com/problems/set-matrix-zeroes/description/
 https://www.youtube.com/watch?v=dSxt3ZCbIqA
 
 Input : matrix (n x m)
-Keyword : Matrix
-Constraints: 1 <= n, m <= 200
+Keyword : Matrix, in place
+Constraints: 1 <= n, m <= 200 => n^2
 
 //Bruteforce
 First, find all the places where there’s a zero.
