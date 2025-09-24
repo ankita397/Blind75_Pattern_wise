@@ -1,0 +1,64 @@
+Common Patterns in Matrix Problems
+1. Standard Row-Column Traversal
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            // process matrix[i][j]
+    
+    
+    🔸 Use for: Searching, counting, setting values
+    🔸 Examples: Set Matrix Zeroes, Search Matrix
+
+2. Layer-by-Layer Traversal (Boundary Shrinking)
+    int top = 0, bottom = m - 1, left = 0, right = n - 1;
+    while (top <= bottom && left <= right) {
+        // traverse top row, right col, bottom row, left col
+        top++; bottom--; left++; right--;
+    }
+
+
+    🔸 Use for: Spiral or rotating patterns
+    🔸 Examples: Spiral Matrix, Rotate Image
+
+3. In-Place Modifications
+
+    Use matrix itself to store markers or perform swaps to save space.
+    
+    🔸 Use for: Space-optimized solutions
+    🔸 Examples:
+    
+    Set Matrix Zeroes → use first row/col as flags
+    
+    Rotate Image → in-place 4-element swaps
+
+4. Direction Vector Simulation
+    int[][] dirs = { {0,1}, {1,0}, {0,-1}, {-1,0} }; // right, down, left, up
+    
+    
+    🔸 Use for: Simulating movement, robots, spirals
+    🔸 Examples: Spiral Matrix, Flood Fill
+    
+5. Diagonal Traversal
+
+    Traverse diagonals instead of rows or columns.
+    
+    🔸 Use for: Zigzag or diagonal output
+    🔸 Examples: Diagonal Traverse, Matrix Anti-Diagonals
+
+💡 Key Concepts to Apply
+      Concept	 -> Why It's Useful
+      -------     ---------------
+      Boundaries (top, bottom, etc.) ->	Control spiral/layered traversal
+      Direction vectors -> Simulate movement
+      In-place tricks -> Save space (O(1))
+      Markers in matrix -> Avoid extra memory
+      Symmetry -> Helps with rotations and reflections
+
+🧠 Final Tip
+
+  When solving a matrix problem, ask:
+  
+    1. Do I need to visit every cell? (Use nested loops)
+    
+    2. Do I need to move in a pattern? (Use boundaries or direction vectors)
+    
+    3. Can I do it without extra space? (Use in-place tricks or markers)
