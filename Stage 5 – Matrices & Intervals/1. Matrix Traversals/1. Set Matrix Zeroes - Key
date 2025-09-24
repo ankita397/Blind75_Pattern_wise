@@ -1,0 +1,205 @@
+https://leetcode.com/problems/set-matrix-zeroes/description/
+
+https://www.youtube.com/watch?v=dSxt3ZCbIqA
+
+Input : matrix (n x m)
+Keyword : Matrix
+Constraints: 1 <= n, m <= 200
+
+//Bruteforce
+First, find all the places where there’s a zero.
+Remember which rows and columns have zeros.
+Then, set every element in those rows and columns to zero.
+This way, you don’t accidentally change things while you’re still checking the matrix.
+
+//TC = O(n*m)
+//SC = O(n+m) - for zeroRows and zeroCols
+
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+         // These will keep track of which rows and columns need to be zeroed
+        boolean[] zeroRows = new boolean[n];
+        boolean[] zeroCols = new boolean[m];
+
+        // Step 1: Look through the matrix to find all zeros
+        // Mark the row and column where each zero is found
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(matrix[i][j] == 0){
+                    zeroRows[i] = true;// mark this whole row to be zeroed later
+                    zeroCols[j] = true;// mark this whole col to be zeroed later
+                }
+            }
+        }
+
+        // Step 2: Go through the rows and set entire rows to zero if needed
+        for(int i = 0; i < n; i++){
+            if(zeroRows[i]){
+                for(int j = 0; j < m; j++){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // Step 3: Go through the cols and set entire cols to zero if needed
+        for(int j = 0; j < m; j++){
+            if(zeroCols[j]){
+                for(int i = 0; i < n; i++){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }   
+}
+
+//Optimal - 
+//TC = O(m*n)
+//SC = O(1)
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+
+        //boolean variables to remember if the first row or first column themselves need to be zeroed.
+        boolean firstRowZero = false;
+        boolean firstColZero = false;
+
+        // Check if first row contains any zero
+        for(int j = 0; j < m; j++){
+            if(matrix[0][j] == 0){
+                firstRowZero = true;
+                break;
+            }
+        }
+
+        // Check if first col contains any zero
+        for(int i = 0; i < n; i++){
+            if(matrix[i][0] == 0){
+                firstColZero = true;
+                break;
+            }
+        }
+
+
+        // Set markers in the first row and firse col
+        // Start from 1 to avoid the first row and column for now
+        for(int i = 1; i < n; i++){
+            for(int j = 1; j < m; j++){
+                // If a zero is found, mark the corresponding first row and first column cell as zero
+                if(matrix[i][j] == 0){
+                    matrix[i][0] = 0;  // flag that row i should be zeroed
+                    matrix[0][j] = 0;  // flag that col j should be zeroed
+                }
+            }
+        }
+
+        // Now zero out cells based on the markers in the first row and first column
+        // We replace our inner matrix with zeroes
+        for(int i = 1; i < n; i++){
+            for(int j = 1; j < m; j++){
+                if(matrix[i][0] == 0 || matrix[0][j] == 0){ // looks for 0's which we marked in first row and first col in the previous step
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        
+
+        // Finally, if the first row originally had any zero, zero out the entire first row
+        if(firstRowZero) {
+            for (int j = 0; j < m; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        // Finally, if the first column originally had any zero, zero out the entire first column
+        if(firstColZero) {
+            for (int i = 0; i < n; i++) {
+                matrix[i][0] = 0;
+            }
+        }
+        
+    }   
+}
+
+//Optimal explained with example
+Initial matrix (3 rows x 4 columns):
+[ [1, 2, 0, 4],
+  [5, 0, 7, 8],
+  [9, 10, 11, 12] ]
+
+Step 1: Check if first row or first column have zeros
+
+    First row: [1, 2, 0, 4] → contains zero at index 2 → so firstRowZero = true
+    
+    First column: [1, 5, 9] → no zeros → so firstColZero = false
+
+Step 2: Use first row and column to mark zeros for other rows and columns
+
+    Scan from row 1 and column 1 onwards:
+    
+    Check matrix[1][1] = 0 → mark row 1 and column 1:
+    
+    matrix[1][0] = 0 (mark row 1)
+    
+    matrix[0][1] = 0 (mark column 1)
+    
+    Other cells are non-zero.
+    
+    Matrix after marking:
+    
+    [ [1, 0, 0, 4],   // column 1 marked 0 here
+      [0, 0, 7, 8],   // row 1 marked 0 here
+      [9, 10, 11, 12] ]
+
+Step 3: Zero out cells based on markers
+
+    For each cell from row 1 and col 1:
+    
+    If matrix[i][0] == 0 (row marker zero) or matrix[0][j] == 0 (column marker zero), set matrix[i][j] = 0.
+    
+    Go cell by cell:
+    
+    matrix[1][1] → matrix[1][0] = 0 or matrix[0][1] = 0 → zero it
+    
+    matrix[1][2] → matrix[1][0] = 0 → zero it
+    
+    matrix[1][3] → matrix[1][0] = 0 → zero it
+    
+    matrix[2][1] → matrix[0][1] = 0 → zero it
+    
+    Others remain the same.
+    
+    Matrix now:
+    
+    [ [1, 0, 0, 4],
+      [0, 0, 0, 0],
+      [9, 0, 11, 12] ]
+
+Step 4: Zero out first row and first column if needed
+
+    Since firstRowZero = true, zero out entire first row:
+    
+    [ [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [9, 0, 11, 12] ]
+    
+    
+    firstColZero = false → no change in first column.
+    
+    Final matrix:
+    [ [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [9, 0, 11, 12] ]
+
+Summary:
+
+First row zero flag: yes, zero entire first row at the end.
+
+First column zero flag: no, leave first column as is.
+
+Used first row and column as markers to mark rows/columns to zero.
+
+Zeroed cells based on those markers.
