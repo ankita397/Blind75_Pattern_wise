@@ -3,7 +3,7 @@ https://leetcode.com/problems/set-matrix-zeroes/description/
 https://www.youtube.com/watch?v=dSxt3ZCbIqA
 
 Input : matrix (n x m)
-Keyword : Matrix, in place
+Keyword : Matrix, in place => SC = O(1)
 Constraints: 1 <= n, m <= 200 => n^2
 
 //Bruteforce
