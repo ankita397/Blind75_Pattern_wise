@@ -1,0 +1,99 @@
+https://leetcode.com/problems/rotate-image/description/
+
+https://www.youtube.com/watch?v=Z0R2u6gd3GU
+
+Input : matrix (n x m)
+Keyword : Matrix, in place => SC = O(1)
+Constraints: 1 <= n <= 20
+
+//Bruteforce - rotatedMatrix[j][n-1-i] = matrix[i][j];
+
+ //        0 1 2 ->      0 1 2
+    //        -----         -----
+    //    0 | 1 2 3     0 | 7 4 1
+    //    1 | 4 5 6     1 | 8 5 2
+    //    2 | 7 8 9     2 | 9 6 3
+
+    //[0][0] -> [0][2]
+    //[0][1] -> [1][2]
+    //[0][2] -> [2][2]
+
+    //[1][0] -> [0][1]
+    //[1][1] -> [1][1]
+    //[1][2] -> [2][1]
+    
+    //[2][0] -> [0][0]
+    //[2][1] -> [1][0]
+    //[2][2] -> [2][0]
+    //    j      j
+    // i             n-1-i
+
+//TC = O(n^2)
+//SC = O(n^2)
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+
+        int[][] rotatedMatrix = new int[n][n];
+       
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                rotatedMatrix[j][n-1-i] = matrix[i][j];
+            }
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                matrix[i][j] = rotatedMatrix[i][j];
+            }
+        }
+    }
+}
+
+//Optimal -> Transpose + Reverse
+//In original matrix, 1st column (1,4,7) goes to the 1st row of rotated matrix but in reverse order (7,4,1).
+//Transpose -> column becomes row & row becomes column
+1 2 3    1 4 7 
+4 5 6 -> 2 5 8 
+7 8 9    3 6 9
+
+//Reverse -> Reverse every row
+1 4 7    7 4 1
+2 5 8 -> 8 5 2
+3 6 9    9 6 3
+
+
+//TC = O(n^2)
+//SC = O(1)
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+
+        // Step 1: Transpose the matrix
+        // Transposing means converting rows into columns
+        // We swap elements across the diagonal (i.e., matrix[i][j] with matrix[j][i])
+        for(int i = 0; i < n; i++){
+            for(int j = i+1; j < n; j++){
+               // start from j = i+1 to avoid re-swap
+               // If we draw line along the diagonal, we just need to swap for one half of the matrix 
+               int temp = matrix[i][j];
+               matrix[i][j] = matrix[j][i];
+               matrix[j][i] = temp;
+            }
+        }
+
+        // This swaps elements from the left and right sides of each row,
+        // effectively flipping the row horizontally to complete the 90-degree clockwise rotation
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n/2; j++){// run till half of col length to avoid re-swap
+            //00->02,10->12,20->22 => x is constant and y changes acc. to calculation matrix.length-1-y
+               int temp = matrix[i][j];
+               matrix[i][j] = matrix[i][n-1-j];
+               matrix[i][n-1-j] = temp;
+            // Example: In row 0, matrix[0][0] swaps with matrix[0][n-1]
+            }
+        }
+    }
+}
+
+
+
