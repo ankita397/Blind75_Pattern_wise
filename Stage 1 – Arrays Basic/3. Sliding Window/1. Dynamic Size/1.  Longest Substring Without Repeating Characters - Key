@@ -89,10 +89,7 @@ class Solution {
         int right = 0;
         
         // Store last seen position of each char
-        int[] lastSeenIndex = new int[256];
-        for(int i = 0; i < 256; i++){
-            lastSeenIndex[i] = -1;
-        }
+        HashMap<Character, Integer> lastSeenMap = new HashMap<>();
 
         while(right < n){
             char currentChar = s.charAt(right);
@@ -100,15 +97,16 @@ class Solution {
             //********** See dry run below
             // If currentChar was seen before and is inside current window,
             // move left (new window start) just past its last seen position to avoid duplicates
-            if((lastSeenIndex[currentChar] != -1) && (lastSeenIndex[currentChar] >= left)){
-                left = lastSeenIndex[currentChar] + 1;
+            if(lastSeenMap.containsKey(currentChar) && lastSeenMap.get(currentChar) >= left){
+                left = lastSeenMap.get(currentChar) + 1;
             }
 
             // Update last seen index for currentChar as the "right" index is its new last seen position
-            lastSeenIndex[currentChar] = right;
+            lastSeenMap.put(currentChar,right);
 
             //Update maxLen 
             maxLen = Math.max(maxLen, right - left + 1);
+
             // expand window from the right include the next character in the string.
             right++;       
         }
