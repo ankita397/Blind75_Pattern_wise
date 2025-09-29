@@ -48,7 +48,8 @@ class Solution {
             int area = currentHeight * currentWidth;
             maxArea = Math.max(maxArea, area);
 
-             // Move the pointer with the smaller height
+             // Move the pointer with the smaller height to search for a taller wall, 
+             // which could increase the minimum height and potentially maximize the area.
             if(height[left] < height[right])
                 left++;
             else
