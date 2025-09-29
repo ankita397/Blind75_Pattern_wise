@@ -10,6 +10,8 @@ https://www.youtube.com/watch?v=UuiTKBwPgAo
 Input : Array
 Keywords : Find Pair for optimal solution => Two pointers
 Constraint : 2 <= n <= 10^5 => O(n log n), O(n) should be ok
+            0 <= height[i] <= 104
+
 
 
 //Bruteforce - 2 loops
