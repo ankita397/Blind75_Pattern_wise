@@ -14,7 +14,10 @@ class Solution {
         int sLen = s.length();
         int tLen = t.length();
         String minWindow = "";
-        int minWindowLen = Integer.MAX_VALUE;
+        int minWindowLen = Integer.MAX_VALUE; 
+        // If we initialized minWindowLen to 0, Any window length you find will never be less than 0.
+        //So, the minimum window length will never get updated.
+
         int sIndex = -1;
         
         // Edge cases: if s or t is empty, or t is longer than s, return empty string immediately
