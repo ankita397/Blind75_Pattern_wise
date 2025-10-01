@@ -3,7 +3,7 @@ https://leetcode.com/problems/minimum-window-substring/description/
 https://www.youtube.com/watch?v=WJaij9ffOIY
 
 Input : String
-Keywords : substring, optimization => Sliding Window
+Keywords : substring, window optimization => Sliding Window
 Constraints :1 <= m, n <= 10^5 => O(n log n), O(n)
 
 //Brute force - Check every possible substring of s starting at each index to find the smallest one containing all characters of t.
@@ -46,6 +46,10 @@ class Solution {
                     matchedCount++;
                 }
                 // Then reduce freq['A'] by 1 because we found one 'A' already in our map.
+
+                //We reduce freq of current character in map to keep track of how many of that char is needed in 's' for us to satisfy our condition.
+                //If the count is 0 or less, it means we have more than needed of that character.
+                //This helps us later when we shrink the window — we can safely remove extra characters.
                 if (freqT.containsKey(currentChar)) {
                     freqT.put(currentChar, freqT.get(currentChar) - 1);
                 }
@@ -102,7 +106,10 @@ class Solution {
             if(freqT.containsKey(currentChar) && freqT.get(currentChar) > 0){
                 matchedCount++;
             }
-            // Then reduce freq of that char by 1 because we found one it already
+
+            //We reduce freq of current character in map to keep track of how many of that char is needed in 's' for us to satisfy our condition.
+            //If the count is 0 or less, it means we have more than needed of that character.
+            //This helps us later when we shrink the window — we can safely remove extra characters.
             if (freqT.containsKey(currentChar)) {
                 freqT.put(currentChar, freqT.get(currentChar) - 1);
             }
