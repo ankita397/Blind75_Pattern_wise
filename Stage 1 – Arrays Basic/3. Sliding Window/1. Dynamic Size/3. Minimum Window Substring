@@ -23,11 +23,12 @@ class Solution {
 
         // Iterate through each character in s as a potential "start of a window"
         for(int i = 0; i < sLen; i++){
-            int[] freqT = new int[128];
+            // Build frequency map for t
+            Map<Character, Integer> freqT = new HashMap<>();
 
             // Count how many times each character appears in t
-            for(int j = 0; j < tLen; j++){
-                freqT[t.charAt(j)]++;
+            for(char c : t.toCharArray()){
+                freqT.put(c, freqT.getOrDefault(c, 0)+ 1);
             }
 
             int matchedCount = 0; // Number of characters matched so far
@@ -38,11 +39,13 @@ class Solution {
 
                 // Example: If t = "ABC" and freq['A'] = 1, freq['B'] = 1, freq['C'] = 1
                 // When we see 'A' in s and freq['A'] > 0, it means we still need 'A', so increase matchedCount
-                if(freqT[currentChar] > 0){
+                if (freqT.containsKey(currentChar) && freqT.get(currentChar) > 0) {
                     matchedCount++;
                 }
                 // Then reduce freq['A'] by 1 because we found one 'A' already
-                freqT[currentChar]--;
+                if (freqT.containsKey(currentChar)) {
+                    freqT.put(currentChar, freqT.get(currentChar) - 1);
+                }
 
                 // If all characters from t are matched, check window size
                 if(matchedCount == tLen){
@@ -84,20 +87,22 @@ class Solution {
             return "";
         
         // Frequency array for characters in t
-        int[] freqT = new int[128];
-        for(int i = 0; i < tLen; i++){
-            freqT[t.charAt(i)]++;
+        Map<Character, Integer> freqT = new HashMap<>();
+        for(char c : t.toCharArray()){
+            freqT.put(c, freqT.getOrDefault(c, 0) + 1);
         }
 
         while(right < sLen){
             char currentChar = s.charAt(right); // character in s
 
             // If current char is still needed to fulfill t, increase matchedCount
-            if(freqT[currentChar] > 0){
+            if(freqT.containsKey(currentChar) && freqT.get(currentChar) > 0){
                 matchedCount++;
             }
             // Then reduce freq of that char by 1 because we found one it already
-            freqT[currentChar]--;
+            if (freqT.containsKey(currentChar)) {
+                freqT.put(currentChar, freqT.get(currentChar) - 1);
+            }
 
              // Till all chars from t matched in current window
             while(matchedCount == tLen){
@@ -106,13 +111,15 @@ class Solution {
                     minWindowLen = winLen;// Update minimum window length found
                     sIndex = left;// Update start index of min window
                 }
-                 // Shrink window from left: restore/"put back" the frequency of the removed char in freqT
-                freqT[s.charAt(left)]++;
-
+                // Shrink window from left: restore/"put back" the frequency of the removed char in freqT
                 //If after restoring the frequency, the count of that character in freqT is greater than zero, it means you are now missing a needed character from the window.
                 //So, you decrement matchedCount to reflect that the window no longer satisfies the full requirement.
-                if(freqT[s.charAt(left)] > 0){
-                    matchedCount--;
+                char leftChar = s.charAt(left);
+                if (freqT.containsKey(leftChar)) {
+                    freqT.put(leftChar, freqT.get(leftChar) + 1); //shrink
+                    if (freqT.get(leftChar) > 0) {
+                        matchedCount--;
+                    }
                 }
                 left++;
             }
