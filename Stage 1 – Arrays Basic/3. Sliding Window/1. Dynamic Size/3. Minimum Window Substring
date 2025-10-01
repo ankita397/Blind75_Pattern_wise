@@ -36,7 +36,7 @@ class Solution {
 
             int matchedCount = 0; // Number of characters matched so far
 
-            // Try to find a window starting at i that contains all chars of t
+            // Try to find a window starting at i in 's' that contains all chars of t
             for(int j = i; j < sLen; j++){
                 char currentChar = s.charAt(j);
 
