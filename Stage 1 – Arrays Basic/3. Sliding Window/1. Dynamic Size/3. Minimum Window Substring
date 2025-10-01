@@ -45,7 +45,7 @@ class Solution {
                 if (freqT.containsKey(currentChar) && freqT.get(currentChar) > 0) {
                     matchedCount++;
                 }
-                // Then reduce freq['A'] by 1 because we intserted one 'A' already into our map.
+                // Then reduce freq['A'] by 1 because we found one 'A' already in our map.
                 if (freqT.containsKey(currentChar)) {
                     freqT.put(currentChar, freqT.get(currentChar) - 1);
                 }
