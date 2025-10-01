@@ -1,0 +1,3 @@
+1. "When finding minimums or maximums, initialize with the extreme opposite bound so the first real candidate replaces it."
+    int minLength = Integer.MAX_VALUE;
+    int count = 0;
