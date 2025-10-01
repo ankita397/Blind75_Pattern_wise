@@ -40,8 +40,8 @@ class Solution {
             for(int j = i; j < sLen; j++){
                 char currentChar = s.charAt(j);
 
-                // Example: If t = "ABC" and freq['A'] = 1, freq['B'] = 1, freq['C'] = 1
-                // When we see 'A' in s and freq['A'] > 0, it means we still need 'A', so increase matchedCount
+                // Example: If t = "ABC" and s = "ADOBECODEBANCC", and freqT['A'] = 1, freqT['B'] = 1, freqT['C'] = 1
+                // When we see 'A' in s and freqT['A'] > 0, it means we still need 'A', so increase matchedCount
                 if (freqT.containsKey(currentChar) && freqT.get(currentChar) > 0) {
                     matchedCount++;
                 }
