@@ -35,7 +35,7 @@ class Solution {
         }
 
         // overlap part - [3, 5],[6, 7],[8, 10].  
-        // These intervals start before newInterval ends, so they overlap
+        // These intervals start before newInterval ends, so they overlap - merge them
         // Eg: [3,5], [6,7], [8,10] all overlap with [4,8], so newInterval becomes [3,10]
         while (i < n && intervals[i][0] <= newInterval[1]) {
             newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
