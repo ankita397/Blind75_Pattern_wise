@@ -7,6 +7,9 @@ Keywords : interval, start end =>  Interval Pattern
 Constraints : 0 <= intervals.length <= 10^4 => O(n), O(nlog n)
 
 Approach - Greedy
+// Left non overlapping part - current interval ends before new interval starts
+// Overlapping part - current interval starts before new interval ends
+// Right non overlapping part - remaining
 
 //TC = O(n)
 //SC = O(n)
