@@ -1,0 +1,45 @@
+https://leetcode.com/problems/merge-intervals/description/
+
+https://www.youtube.com/watch?v=IexN60k62jo
+
+Input : array
+Keywords : interval, start - end, merge overlaping =>  Interval Pattern
+Constraints : 1 <= intervals.length <= 10^4 => O(n), O(nlog n)
+
+//Optimal - Greedy
+
+1. Sort intervals by start time.
+2. Create result = [].
+3. For each interval:
+      - If result is empty OR current.start > result[-1].end:
+            → push current
+      - Else:
+            → merge (result[-1].end = max(result[-1].end, current.end))
+(result[-1] represents the last interval added to the result)
+4. Return result.
+
+//TC = O(nlogn) - sort and single loop
+//SC = O(n)
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        int n = intervals.length;
+        List<int[]> mergedIntervals = new ArrayList<>();
+        //Sort the array with 1st element of intervals
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+
+        for(int i = 0; i < n ; i++){
+            //if mergedIntervals is empty or if the current interval starts after mergedIntervals ends,
+            //then simply add it to mergedIntervals
+            if(mergedIntervals.isEmpty() || intervals[i][0] > mergedIntervals.get(mergedIntervals.size()-1)[1]){
+                mergedIntervals.add(intervals[i]);
+            }else{ 
+                //If the current interval starts before mergedIntervals ends
+                //then update the end of mergedIntervals to max of both "ends"
+                mergedIntervals.get(mergedIntervals.size()-1)[1] = 
+                    Math.max(mergedIntervals.get(mergedIntervals.size()-1)[1], intervals[i][1]);
+            }
+        }
+
+        return mergedIntervals.toArray(new int[mergedIntervals.size()][]);
+    }
+}
