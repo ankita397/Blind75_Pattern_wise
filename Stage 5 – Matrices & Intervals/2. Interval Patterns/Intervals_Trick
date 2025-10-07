@@ -1,0 +1,31 @@
+✅ Sort by Start Time When:
+  - You're checking pairwise overlap or need to process intervals in chronological order.
+
+🔹 Common Scenarios:
+    - You're trying to detect if intervals overlap (e.g. "Can attend all meetings?").
+    - You're merging overlapping intervals.
+    - You want to group or process intervals in order they begin.
+
+🧠 Why?
+    Sorting by start time ensures you're always looking at intervals in the order they start — 
+    which is essential when comparing each interval to the previous one.
+
+✅ Sort by End Time When:
+  - You're trying to maximize the number of non-overlapping intervals or greedily pick optimal intervals.
+
+🔹 Common Scenarios:
+    - You're asked to remove the fewest intervals to eliminate overlaps.
+    - You're trying to attend as many meetings as possible (interval scheduling).
+    - You're choosing non-conflicting tasks or events.
+
+🧠 Why?
+    Sorting by end time allows you to always pick the earliest finishing interval, which leaves the most room for future intervals — 
+    a core greedy strategy.
+
+🔁 Summary Table
+Problem Type	                                    Sort By	              Example Problem
+------------                                    --------------    ------------------------------
+Detect if intervals overlap	                      Start time	    "Can attend all meetings?"
+Merge overlapping intervals	                      Start time	    "Merge Intervals"
+Remove minimum to eliminate overlaps	            End time	      "Erase Overlap Intervals"
+Maximize number of non-overlapping intervals	    End time	      "Interval Scheduling"
