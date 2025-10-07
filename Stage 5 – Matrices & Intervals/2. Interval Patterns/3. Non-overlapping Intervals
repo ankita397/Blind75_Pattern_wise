@@ -1,13 +1,13 @@
 https://leetcode.com/problems/non-overlapping-intervals/description/
 https://leetcode.com/problems/non-overlapping-intervals/solutions/3785409/beat-s-100-c-java-python-beginner-friendly
 
-https://www.youtube.com/watch?v=HDHQ8lAWakY
+https://www.youtube.com/watch?v=HDHQ8lAWakY (Same logic just a little implementation)
 
 Input : array
 Keywords : interval, overlapping =>  Interval Pattern
 Constraints : 1 <= intervals.length <= 10^5 => O(n), O(nlog n)
 
-//Optimal - Greedy
+//Optimal - Greedy - Trick is to keep track of the end time of the last non-overlapping meeting.
 
 Sort intervals by their ending time.
 Keep track of the end of the last non-overlapping interval.
