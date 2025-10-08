@@ -1,1 +1,88 @@
 
+https://leetcode.com/problems/reverse-linked-list/description/
+
+https://www.youtube.com/watch?v=D2vI2DNJGd8
+
+Input : Node
+Keywords : reverse, linked list
+Constraints : The number of nodes in the list is the range [0, 5000].
+              -5000 <= Node.val <= 5000 => O(n²), O(n log n), O(n)
+
+//Iterative approach - Lame : Traverse and push to a stack. Again traverse and pop from stack.
+
+//TC = O(n+n)
+//SC = O(n) - stack
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode temp = head;
+        Stack<Integer> stack = new Stack();
+        while(temp != null){
+            stack.push(temp.val);
+            temp = temp.next;
+        }
+        temp = head;
+        while (temp != null && !stack.isEmpty()) {
+            temp.val = stack.pop();
+            temp = temp.next;
+        }
+        return head;
+    }
+}
+
+//Iterative approach - better - Pointer reversal
+
+//TC = O(n)
+//SC = O(1)
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode curr = head;
+        ListNode prev = null; // make prev null so that 1st node can point to null thereby making is last node
+        while(curr != null){
+            ListNode nextTemp = curr.next; //use nextTemp to preserve the reference to next node
+            curr.next = prev; // reverse the pointer here
+            prev = curr; //Move 'prev' to the current node for the next iteration
+            curr = nextTemp;//Move 'curr' to the 'nextTemp' node advancing the traversal
+        }
+        return prev; //prev will have the new head of the reversed linked list
+    }
+}
+
+//Recursive : recursive solve for smaller linked lists
+
+//TC = O(n)
+//SC = O(n) - recursion stack space
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        //base case : if linked list is empty or if it has just 1 node
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        ListNode reversedHead = reverseList(head.next); // recursive call for next node
+        ListNode nextTemp = head.next; //head's next is our next node
+        head.next = null; // head should point to null making it the last node
+        nextTemp.next = head; // next node should point to head reversing the pointer
+
+        return reversedHead; 
+        
+    }
+}
+
+// Eg: 1 -> 2 -> 3 -> 4 -> 5 -> null
+
+                      ↓
+                        
+// 5 -> null        => base case returns 5
+// 4 -> 5 -> null         =>         5 -> 4 -> null
+// 3 -> 4 -> 5 -> null         =>         5 -> 4 -> 3 -> null
+// 2 -> 3 -> 4 -> 5 -> null         =>         5 -> 4 -> 3 -> 2 -> null
+// 1 -> 2 -> 3 -> 4 -> 5 -> null        =>        5 -> 4 -> 3 -> 2 -> 1 -> null
+
+reverseList(1)
+  ↳ reverseList(2)
+      ↳ reverseList(3)
+          ↳ reverseList(4)
+              ↳ reverseList(5)
+                  ↳ base case: return 5
