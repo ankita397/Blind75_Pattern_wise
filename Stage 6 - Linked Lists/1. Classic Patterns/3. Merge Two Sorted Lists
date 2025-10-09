@@ -1,0 +1,87 @@
+https://leetcode.com/problems/merge-two-sorted-lists/description/
+
+https://www.youtube.com/watch?v=jXu-H7XuClE
+
+Input : Linked list
+Keywords : sorted lists, merge
+Constraints : The number of nodes in both lists is in the range [0, 50].
+              -100 <= Node.val <= 100
+              Both list1 and list2 are sorted in non-decreasing order.
+
+//Bruteforce  - Use arrayList to store values of both LLs and sort the arrayList. After that convert the AL to LL.
+
+//TC = O(N1 + N2) + O(N log N) + O(N) => LL1 size + LL2 size + sort + convert function loop AL size
+//SC = O(N)+O(N) => ArrayList size + new linked list size when N = N1+N2
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode temp1 = list1;
+        ListNode temp2 = list2;
+        
+        ArrayList<Integer> arrList = new ArrayList<Integer>();
+
+        while(temp1 != null){
+            arrList.add(temp1.val);
+            temp1 = temp1.next;
+        }
+        while(temp2 != null){
+            arrList.add(temp2.val);
+            temp2 = temp2.next;
+        }
+
+        Collections.sort(arrList);
+        
+        return convertArrayListToLinkedList(arrList);
+    }
+
+    private ListNode convertArrayListToLinkedList(ArrayList<Integer> arrList){
+        ListNode dummyHead = new ListNode(-1); //dummy node with a placeholder value (-1). It's not part of the actual data in our linked list.
+        ListNode temp = dummyHead;
+
+        for(int num : arrList){
+            temp.next = new ListNode(num); // Append new node
+            temp = temp.next; // Move temp forward
+        }
+        return dummyHead.next;// Return the real head of the list
+    }
+}
+
+//Optimal - using dummy node , pointer change and reusing same nodes without creating new LL, thereby optimizing Space complexity.
+
+//TC = O(N1 + N2)
+//SC = O(1) - Reusing nodes in list1 and list2 so no space used (dummyHead is just 1 node so its takes almost no space)
+
+//INTUITION:
+- We use a dummyHead as a placeholder to simplify building the merged list. 
+- At each step, we compare t1.val and t2.val, attach the smaller node to the merged list, and move that pointer forward. 
+- We reuse existing nodes, so the extra space is constant. 
+- After the loop, any remaining nodes are attached, and dummyHead.next points to the real head.
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode t1 = list1;
+        ListNode t2 = list2;
+
+        ListNode dummyHead = new ListNode(-1);
+        ListNode temp = dummyHead;
+
+        //Perform comparision till one of the 2 LLs end
+        while(t1 != null && t2 != null){
+            if(t1.val < t2.val){
+                temp.next = t1; // point temp to the lesser value
+                temp = t1; // move temp to tat node which has lesser value
+                t1 = t1.next; // move list1 pointer to next
+            }else{
+                temp.next = t2;
+                temp = t2;
+                t2 = t2.next;
+            }
+        }
+        if(t1 != null){ // Attach remaining nodes of whichever list did not end yet
+            temp.next = t1;
+        }else{
+            temp.next = t2;
+        }
+        return dummyHead.next; // return the real head of the LL
+    }
+}
