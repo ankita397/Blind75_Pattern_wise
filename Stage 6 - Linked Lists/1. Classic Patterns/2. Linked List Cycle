@@ -27,4 +27,36 @@ public class Solution {
     }
 }
 
+//Optimal - Fast and slow pointer
 
+//INTUITION:
+- Move slow pointer by 1 and fast pointer by 2. 
+- If slow and fast pointer collide at any node((or point to same node) then we know the LL has a cycle.
+- They will eventually collide for sure  because the distance between fast and slow (not slow and fast) reduces at each step. 
+- That is the reason, 
+    - we move fast by 2 positions towards slow 
+    - we move slow by 1 position away from fast 
+    so the distance(d) from fast to slow reduces by 1 each time (fast becomes closer to slow by 1 position).
+- This ensures the distance d reduces as: d → d-1 → d-2 … until it becomes 0 (collision).
+- This only happens when the linked list has a cycle, which is why fast moves 2 steps toward slow and slow moves 1 step.
+
+//TC = ~ O(n)
+//SC = O(1)
+
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        // if fast == null or fast.next == null => no cycle as in cycle there is no end of LL
+        // end of LL => when node reaches null or node.next is null
+        while(fast != null && fast.next != null){ 
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                return true; // cycle detected when slow and fast meet
+            }
+        }
+        return false;
+    }
+}
