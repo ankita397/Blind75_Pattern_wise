@@ -1,0 +1,48 @@
+https://leetcode.com/problems/reorder-list/description/
+
+https://www.youtube.com/watch?v=S5bfdUTrKLM
+
+Input : Node
+Keywords : nth node from end, middle of LL, cycle, one-pass linked list => fast and slow pointers
+Constraints : The number of nodes in the list is in the range [1, 5 * 104].
+              1 <= Node.val <= 1000
+
+//Brute Force - iterative - 2 pointers
+//TC = O(n)
+//SC = O(n) - arrayList
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head == null){
+            return;
+        }
+
+        //Put all nodes in an array list
+        List<ListNode> nodeList = new ArrayList<ListNode>();
+        ListNode temp = head;
+        while(temp != null){
+            nodeList.add(temp);
+            temp = temp.next;
+        }
+
+        //Traverse from left and right of the array list
+        int left = 0;
+        int right = nodeList.size() - 1;
+
+        while(left < right){
+            // Set the 'next' of the node at 'left' to the node at 'right'
+            nodeList.get(left).next = nodeList.get(right); 
+            left++;
+            if(left >= right){ // left may exceed right when we increment it
+                break;
+            }
+            // Set the 'next' of the node at 'right' to the node at 'left'
+            nodeList.get(right).next = nodeList.get(left);
+            right--;
+        }
+
+        //nodeList.get(left) will be the last node after traversal as left moves forward
+        //In example [1,2,3,4] , left moves to 0 -> 1 -> 2 -> 3
+        //the last node should point to null
+        nodeList.get(left).next = null;
+    }
+}
