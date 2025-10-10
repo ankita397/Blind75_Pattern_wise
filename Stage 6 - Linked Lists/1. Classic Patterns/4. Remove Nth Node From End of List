@@ -3,7 +3,7 @@ https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/
 https://www.youtube.com/watch?v=3kMKYQ2wNIU
 
 Input : Node
-Keywords : nth node from end, middle of LL, cycle, linked list => fast and slow pointers
+Keywords : nth node from end, middle of LL, cycle, one-pass linked list => fast and slow pointers
 Constraints : The number of nodes in the list is sz.
               1 <= sz <= 30
               0 <= Node.val <= 100
