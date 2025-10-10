@@ -3,7 +3,7 @@ https://leetcode.com/problems/linked-list-cycle/description/
 https://www.youtube.com/watch?v=wiOo4DC5GGA
 
 Input : Node
-Keywords : nth node from end, middle of LL, cycle, one-pass linked list => fast and slow pointers
+Keywords : nth node from end, middle of LL, cycle, one-pass, linked list => fast and slow pointers
 Constraints : -10^5 <= Node.val <= 10^5  
 
 
