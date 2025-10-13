@@ -89,11 +89,12 @@ class Solution {
 
         //Merge the two halves one node at a time.
         while(second != null){
+            //Store references to next nodes of first and second LLs
             ListNode temp1 = first.next;
             ListNode temp2 = second.next;
             
             first.next = second; // Link first half to second half
-            second.next = temp1; // Link second half back to first half
+            second.next = temp1; // Link second half back to first half (using temp1 reference)
 
             first = temp1; // Move first to the next node in the first half
             second = temp2; // Move second to the next node in the second half
