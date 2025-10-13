@@ -46,3 +46,70 @@ class Solution {
         nodeList.get(left).next = null;
     }
 }
+
+//Optimal - Fast and Slow pointers
+
+- Find the middle of the list using the fast and slow pointer technique (Tortoise and Hare algorithm).
+  - Fast moves 2 steps and slow moves 1 step.
+  - When fast reaches the end of the list (fast == null or fast.next == null), 
+  - slow will be at the middle of the list.
+  - For an odd-length list, slow will be at the exact middle node.
+  - For an even-length list, slow will be at the second of the two middle nodes.
+- Split the list into two halves.
+- Reverse the second half of the list.
+- Merge the two halves one node at a time.
+
+//TC = O(n)
+//SC = O(1)
+
+class Solution {
+    public void reorderList(ListNode head) {
+        //base : empty LL or only 1 node
+        if(head == null || head.next == null){
+            return;
+        }
+
+        // Find the middle of the list using the fast and slow pointer technique.
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+
+        //Split the list into two halves.
+        ListNode first = head;
+        ListNode second = slow.next;
+        slow.next = null; //this marks the end of the 1st half and properly breaks the list into two parts
+
+        //Reverse the second half of the list.
+        second = reverseList(second);
+
+        //Merge the two halves one node at a time.
+        while(second != null){
+            ListNode temp1 = first.next;
+            ListNode temp2 = second.next;
+            
+            first.next = second; // Link first half to second half
+            second.next = temp1; // Link second half back to first half
+
+            first = temp1; // Move first to the next node in the first half
+            second = temp2; // Move second to the next node in the second half
+        }
+    }
+
+    private ListNode reverseList(ListNode head){
+        ListNode prev = null;
+        ListNode curr = head;
+
+        while(curr != null){
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+}
