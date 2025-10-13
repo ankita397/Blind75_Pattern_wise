@@ -4,7 +4,7 @@ https://leetcode.com/problems/maximum-depth-of-binary-tree/description/
 
 Input : TreeNode root
 Keywords : max, depth, binary tree
-Constraints : The number of nodes in the tree is in the range [0, 104].
+Constraints : The number of nodes in the tree is in the range [0, 10^4].
               -100 <= Node.val <= 100
 
 
