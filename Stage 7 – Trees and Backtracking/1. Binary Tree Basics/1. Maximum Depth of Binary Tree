@@ -1,0 +1,36 @@
+https://leetcode.com/problems/maximum-depth-of-binary-tree/description/
+
+//https://www.youtube.com/watch?v=eD3tmO66aBA
+
+Input : TreeNode root
+Keywords : max, depth, binary tree
+Constraints : The number of nodes in the tree is in the range [0, 104].
+              -100 <= Node.val <= 100
+
+
+Approach - DFS
+
+//TC = O(n)
+//SC = O(height of tree ~ O(n) in case of skewed trees
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+
+        int maxDepth = Integer.MIN_VALUE;
+
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
+
+        maxDepth = 1 + Math.max(leftHeight, rightHeight); 
+        //Input: root = [3,9,20,null,null,15,7]
+        //1 is added for root as we calculate total height including root
+        //leftHeight = 1
+        //rightHeight = 2
+        //total = 1 + max(1, 2) = 3 (maxDepth)
+
+        return maxDepth;
+    }
+}
