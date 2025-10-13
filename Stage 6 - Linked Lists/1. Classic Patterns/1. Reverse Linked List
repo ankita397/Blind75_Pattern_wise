@@ -32,6 +32,11 @@ class Solution {
 
 //Iterative approach - better - Pointer reversal => Use this unless explicitly asked to use recursion
 
+- Reverse one pointer in each iteration.
+    - Iteration 1 : 1st pointer reverses and points to null
+    - Iteration 2 : 2nd pointer points to first
+    - and so on...
+
 //TC = O(n)
 //SC = O(1)
 
