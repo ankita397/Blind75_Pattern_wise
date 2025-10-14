@@ -13,7 +13,6 @@ Constraints : The number of nodes in the tree is in the range [0, 2000].
 //SC = O(N) + O(N) ~ O(N) - The queue can hold up to N nodes in the worst case (if all nodes are in a single level) + The result list 
 //also requires O(N) space.
 
-``` java
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> levelOrderList = new ArrayList<>(); //final output list with nodes in level order
