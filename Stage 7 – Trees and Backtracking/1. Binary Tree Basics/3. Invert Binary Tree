@@ -1,0 +1,41 @@
+https://leetcode.com/problems/invert-binary-tree/description/
+
+https://www.youtube.com/watch?v=OnSn2XEQ4MY
+
+Input : TreeNode root
+Keywords : binary tree, invert
+Constraints : The number of nodes in the tree is in the range [0, 100].
+              -100 <= Node.val <= 100
+
+
+Approach - DFS (no new tree) - BEST
+//TC = O(N)
+//SC = O(H) - recursion stack space
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){
+            return null;
+        }
+        TreeNode temp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(temp);
+
+        return root;
+    }
+}
+
+Approach - DFS (using a 2nd tree)
+//TC = O(N)
+//SC = O(N) + O(H) - new node with same length as given node of size N + recursion stack space
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){
+            return null;
+        }
+        TreeNode newRoot = new TreeNode(root.val);// root remains same
+        newRoot.left = invertTree(root.right);//right becomes left
+        newRoot.right = invertTree(root.left);//left becomes right
+
+        return newRoot;
+    }
+}
