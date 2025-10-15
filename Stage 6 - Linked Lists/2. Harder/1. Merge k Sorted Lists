@@ -2,6 +2,15 @@ https://leetcode.com/problems/merge-k-sorted-lists/description/
 
 https://www.youtube.com/watch?v=1zktEppsdig
 
+Input : Array of Linked list
+Keywords : sorted lists, merge, "k" => Priority Queue / Min Heap
+Constraints :   k == lists.length
+                0 <= k <= 104
+                0 <= lists[i].length <= 500
+                -104 <= lists[i][j] <= 10^4
+                lists[i] is sorted in ascending order.
+                The sum of lists[i].length will not exceed 10^4.
+
 //Brute Force - exactly same as 21. Merge Two Sorted Lists
 
 //TC = O(KN) + O(M log M) + O(M)  -> for loop, sorting, convert function
@@ -88,6 +97,59 @@ class Solution {
             temp.next = t2;
         }
 
+        return dummyNode.next;
+    }
+}
+
+//Optimal - Min Heap (Priotity Queue)
+
+// TC ~ O(N log k), where:
+            // N = total number of nodes across all lists
+            // k = number of linked lists
+            
+            // Explanation:
+            // - Initial insertion of up to k head nodes into the priority queue: O(k log k)
+            // - For each of the N nodes:
+            //     - One poll from the priority queue: O(log k)
+            //     - One offer (if the node has a next): O(log k)
+            //   => Total for all nodes: O(N log k)
+            // Final time complexity is O(N log k)
+
+            // Note:
+            // - Priority queue size is at most k at any time
+
+//SC = O(k) - pq
+
+//pq operations(offer, poll,etc) take O(log K) where K = size of pq 
+
+offer - can be replaced with pq.add(node)
+poll - remove the top and return it
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0){
+            return null;
+        }
+        // Create a priority queue that sorts ListNode objects by their values
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b) -> a.val - b.val);
+        for(int i = 0; i < lists.length; i++){
+            if(lists[i] != null){
+                pq.offer(lists[i]); // Add each non-null head node directly 
+            }
+        }
+
+        ListNode dummyNode = new ListNode(-1);
+        ListNode temp = dummyNode;
+        while(!pq.isEmpty()){
+            // Remove the node with the smallest value from the heap
+            ListNode minNode = pq.poll();
+            temp.next = minNode;
+            temp = temp.next;
+            // If the extracted node has a next node, add it to the queue
+            if(minNode.next != null){
+                pq.offer(minNode.next);
+            }
+        }
         return dummyNode.next;
     }
 }
