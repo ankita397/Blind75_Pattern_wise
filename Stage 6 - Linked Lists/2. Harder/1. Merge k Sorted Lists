@@ -1,0 +1,27 @@
+
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ArrayList<Integer> arrList = new ArrayList<Integer>();
+        for(int i = 0; i < lists.length; i++){
+            ListNode temp = lists[i];
+            while(temp != null){
+                arrList.add(temp.val);
+                temp = temp.next;
+            }
+        }
+        Collections.sort(arrList);
+        return convertArrayListToLinkedList(arrList);
+    }
+
+    private ListNode convertArrayListToLinkedList(ArrayList<Integer> arrList){
+        ListNode dummyNode = new ListNode(-1);
+
+        ListNode temp = dummyNode;
+        for(int i = 0; i < arrList.size(); i++){
+            temp.next = new ListNode(arrList.get(i));
+            temp = temp.next;
+        }
+        return dummyNode.next;
+    }
+}
