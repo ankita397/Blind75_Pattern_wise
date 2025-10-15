@@ -45,10 +45,12 @@ class Solution {
 
 INTUITION - merge k sorted linked lists by starting with the first list and merging it one by one with each of the other lists using a helper function
 
-//TC  = ~ O(k*n) 
+//TC  = ~ O(n^3) 
                 N1+N2 + (N1+N2+N3) + (N1+N2+N3+N4) = N(1+2+...+k) = N * ((K * K+1)/2) where k is the number of lists and 
                 n is the average number of nodes per list, 
                 as each merge operation takes O(n) and we perform it k−1 times.
+
+                N * ((K * K+1)/2) = ~ N^3 (assuming k ~ N)
 
 //SC = O(1) - We just use the existing linked lists and link them in sorted manner. No extra space is used
 
