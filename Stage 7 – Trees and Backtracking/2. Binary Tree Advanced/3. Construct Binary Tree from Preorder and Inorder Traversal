@@ -1,0 +1,60 @@
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/
+
+https://www.youtube.com/watch?v=aZNaLrVebKQ&list=PLkjdNRgDmcc0Pom5erUBU4ZayeU9AyRRu&index=34
+
+Input : TreeNode root
+Keywords : binary tree, preorder, inorder 
+
+/* INTUITION : recursion + map
+ *
+ * Root = preorder[0] - so we find the corresponding index of this root in inorder array 
+ * Left of that root will have the left sub tree nodes
+ * Right of that root will have the left sub tree nodes
+ * 
+ * We need to find the preorder and inorder arrays for each left & right subtree  
+ * and construct the tree from those sub arrays by finding the root again(Root = preorder[0])
+ */
+
+//TC = O(N) or O(NlogN) - if we consider hashmap
+//SC = O(N) + O(N) ~ O(N) - map and rcursive stack
+
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> inOrderMap = new HashMap<>();
+        
+        //Put all values of inorder array into a map
+        for(int i = 0; i < inorder.length; i++){
+            inOrderMap.put(inorder[i], i); 
+        }
+
+        TreeNode root = buildTree(preorder, 0, preorder.length - 1, 
+                                    inorder, 0, inorder.length - 1, inOrderMap);
+
+        return root;
+    }
+
+    private TreeNode buildTree(int[] preorder, int preStart, int preEnd,
+                                int[] inorder, int inStart, int inEnd, Map<Integer, Integer> inOrderMap){
+
+         if(preStart > preEnd || inStart > inEnd){ // no preorder or inorder given, so return null
+            return null;
+         }             
+
+        //The 1st element in each preorder array will be our new root (recursively)
+        TreeNode root = new TreeNode(preorder[preStart]);
+
+        //Find the same root in inorder array
+        int inorderRootIndex = inOrderMap.get(root.val);
+        int leftOfInorderLength = inorderRootIndex - inStart;  
+
+        //preorder = [3,9,20,15,7] -> root = 3; preStart = 0, preEnd = 5
+        //inorder = [9,3,15,20,7] -> inStart = 0, inEnd = 5, inorderRootIndex = 1, leftOfInorderLength = 1
+        root.left = buildTree(preorder, preStart + 1, preStart + leftOfInorderLength,
+                                inorder, inStart, inorderRootIndex - 1, inOrderMap);
+
+        root.right = buildTree(preorder, preStart + leftOfInorderLength + 1, preEnd,
+                                inorder, inorderRootIndex + 1, inEnd, inOrderMap);
+
+        return root;
+    }
+}
