@@ -1,0 +1,49 @@
+https://leetcode.com/problems/subtree-of-another-tree/description/
+
+https://www.youtube.com/watch?v=E36O5SWp-LE
+
+Input : TreeNode root
+Keywords : binary trees, comparison, subtree -> DFS/recursion
+
+//Approach - DFS
+
+//TC = O(n * m) where n is size of root tree and m is size of subRoot tree
+//SC = O(n + m) - Recursion stack space
+
+class Solution {
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if(subRoot == null){
+            return true;
+        }
+        if(root == null){
+            return false;
+        }
+
+       // Check if the current subtree of root is exactly the same as subRoot
+       // This check will be performed at each node of the root
+        if(isSameTree(root,subRoot)){
+            return true;
+        }
+
+        // Compare root's left and right subtrees with subRoot
+        // Is subRoot a subtree of the left subtree of root?
+        // Is subRoot a subtree of the right subtree of root?
+        // If either is true, then return true
+        return (isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot));
+    }
+
+    private boolean isSameTree(TreeNode root1, TreeNode root2){
+        if(root1 == null && root2 == null){
+            return true;
+        }
+
+        if(root1 == null || root2 == null || root1.val != root2.val){
+            return false;
+        }
+
+        boolean isLeftSame = isSameTree(root1.left, root2.left);
+        boolean isRightSame = isSameTree(root1.right, root2.right);
+
+        return isLeftSame && isRightSame;
+    }
+}
