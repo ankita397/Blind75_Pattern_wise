@@ -1,0 +1,51 @@
+//https://leetcode.com/problems/validate-binary-search-tree/description/
+
+https://www.youtube.com/watch?v=f-sj7I5oXEI
+
+Input : TreeNode root
+Keywords : binary tree, BST, subtree => DFS
+Constraints : The number of nodes in the tree is in the range [1, 10^4].
+              -2^31 <= Node.val <= 2^31 - 1   => Long
+
+INTUITION :
+- Each node has a range it’s allowed to be in. Left kids must be smaller, right kids must be bigger, and as you go down, the range gets tighter.
+- Need to find the range in which the value of a node can be for the tree to be a BST
+  - initial root can be within range -2^31 <= Node.val <= 2^31 - 1 as mentioned in problem statement (constraints)
+  - values in the left subtree should within the range of (minValue, root.val).
+  - values in the left subtree should within the range of (root.val, maxValue).
+
+//Approach - DFS 
+
+//TC = O(N) - Every node is visited once.
+//SC = O(H) - Where H is the height of the tree (worst-case: O(N) for a skewed tree, best-case: O(log N) for a balanced tree).
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        // For every node, we need to have a range (lower bound and higher bound).
+        // The node's value must lie in that range
+
+      //-231 <= Node.val <= 231 - 1 - mentioned in problem constraints - use Long
+        return isValid(root, Long.MIN_VALUE, Long.MAX_VALUE); 
+    }
+
+    private boolean isValid(TreeNode root, long minValue, long maxValue){
+        if(root == null){ // empty tree is also a BST
+            return true;
+        }
+
+        if(root.val <= minValue || root.val >= maxValue){
+          return false;
+        }
+
+        //It recursively checks the left subtree, ensuring that values in the left subtree 
+        //are within the range of (minValue, root.val).
+        boolean isLeftValid = isValid(root.left, minValue, root.val);
+
+        //It recursively checks the right subtree, ensuring that values in the right subtree 
+        //are within the range of (root.val, maxValue).
+        boolean isRightValid = isValid(root.right, root.val, maxValue);
+
+        return isLeftValid && isRightValid;
+
+    }
+}
