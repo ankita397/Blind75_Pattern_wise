@@ -1,1 +1,17 @@
+Binary Search Tree (BST) Time Complexity: 
 
+O(n) vs O(H)
+
+Valid BST Problem: O(n)
+
+  Goal: Verify if a tree is a valid BST.
+  Reason: Requires checking every node to ensure it satisfies BST properties (left < root < right).
+  Time Complexity: O(n), as every node must be visited.
+
+LCA of BST: O(H)
+
+Goal: Find the Lowest Common Ancestor (LCA) of two nodes in a BST.
+  Reason: Traverse from the root to the LCA, following BST properties (left < root < right).
+  Time Complexity: O(H), where H is the height of the tree.
+    Best case: O(logn) for balanced trees.
+    Worst case: O(n) for unbalanced trees.
