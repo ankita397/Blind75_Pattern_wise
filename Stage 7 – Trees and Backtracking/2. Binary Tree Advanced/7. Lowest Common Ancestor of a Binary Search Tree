@@ -1,0 +1,39 @@
+//https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+
+//https://www.youtube.com/watch?v=cX_kPV_foZc
+
+Input : TreeNode
+Keywords : BST, LCA => O(h) as we traverse only though height for certain nodes only
+Constraints : The number of nodes in the tree is in the range [2, 105].
+              -10^9 <= Node.val <= 10^9
+              All Node.val are unique.
+              p != q
+              p and q will exist in the BST.
+
+//Approach - DFS 
+
+//TC = O(H)
+//SC = O(H) - Recursion stack space
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        //base case
+        if(root == null){
+            return null;
+        }
+
+        //both p and q nodes lie on the left of current node
+        if(p.val < root.val && q.val < root.val){
+            return lowestCommonAncestor(root.left, p, q);
+        }
+
+        //both p and q nodes lie one the right of current node
+        if(p.val > root.val && q.val > root.val){
+            return lowestCommonAncestor(root.right, p, q);
+        }
+
+        //This is the point where both p and q nodes do not lie on the same side of the current node.
+        //Then this becomes the intersection node.
+        return root;
+    }
+}
