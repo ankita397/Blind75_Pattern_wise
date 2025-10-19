@@ -1,3 +1,20 @@
 1. "When finding minimums or maximums, initialize with the extreme opposite bound so the first real candidate replaces it."
     int minLength = Integer.MAX_VALUE;
     int count = 0;
+
+2. Edge Cases :
+    - Input size : 
+        - null/empty input
+        - single element
+        - max possible size
+    - Input values :
+        - negative numbers
+        - very large numbers
+        - floating point numbers
+    - Special arrangements :
+        - already sorted
+        - reverse sorted
+        - duplicate numbers
+    - Invalid Inputs : 
+        - Null pointers
+        - Malformed inputs
