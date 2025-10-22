@@ -1,0 +1,104 @@
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+
+https://www.youtube.com/watch?v=9TJYWh0adfk
+https://takeuforward.org/data-structure/kth-largest-smallest-element-in-binary-search-tree/
+
+Input : TreeNode, k
+Keywords : BST, kth smallest => sorting - inorder
+Constraints : The number of nodes in the tree is n.
+              1 <= k <= n <= 10^4
+              0 <= Node.val <= 10^4
+
+
+//Brute Force - use list and sorting
+
+//TC = O(n) + O(nlog n) - node traversal and sorting
+//SC = O(n) - list
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        dfs(root, list);
+        
+        Collections.sort(list);
+        return list.get(k-1);//list will be 0-indexed and k will be acc to 1-indexed
+    }
+    private void dfs(TreeNode root, List<Integer> list){
+        //base case
+        if(root == null){
+            return;
+        }
+        list.add(root.val);
+        dfs(root.left, list);
+        dfs(root.right, list);
+    }
+}
+
+//Approach - INORDER TRAVERSAL FOR BST - Inorder for every BST is always sorted -> (Little better)
+
+//TC = O(N) - in-order traversal 
+//SC = O(N) - we are storing all the nodes in a list.
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        dfsInorder(root, list);
+        
+        return list.get(k-1);//list will be 0-indexed and k will be acc to 1-indexed
+    }
+    private void dfsInorder(TreeNode root, List<Integer> list){
+        //base case
+        if(root == null){
+            return;
+        }
+       
+        dfsInorder(root.left, list);
+        list.add(root.val);
+        dfsInorder(root.right, list);
+    }
+}
+
+
+//Approach - RECURSIVE INORDER TRAVERSAL FOR BST - 
+    - Inorder traversal of a BST → sorted order
+    - Use a counter to track the rank of each node during traversal
+    - When count == k, we've reached the k-th smallest node
+    - No need to store all elements (efficient in time & space)
+
+//TC = O(N) 
+//SC = O(H) - In a balanced tree, H would be O(log N), and in the worst case (unbalanced tree), it would be O(N).
+
+class Solution {
+    int count = 0;
+    int result = -1;
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        dfsInorder(root, k);
+        
+        return result;
+    }
+    private void dfsInorder(TreeNode root, int k){
+        //base case
+        if(root == null){
+            return;
+        }
+       
+        dfsInorder(root.left, k);
+        count++;
+        if(count == k){
+            result = root.val;
+        }
+        dfsInorder(root.right, k);
+    }
+}
+
+Note: If the question is to find the kth largest element in BST -> kth largest = (N-k) smallest where N = no of elements.
+
+
+//Optimal Approach - MORRIS TRAVERSAL(Threaded Binary Tree) -> https://www.youtube.com/watch?v=80Zug6D1_r4
+
+//TC = O(n) - Each node is visited at most twice: once to create the thread and once to remove it.
+//SC = O(1) - Morris Traversal eliminates the need for a stack or recursion.
+
+
+Code : https://github.com/ankita397/Blind75_NC/blob/main/7.%20Trees/230.%20Kth%20Smallest%20Element%20in%20a%20BST
+(SKIPPING as its complicated)
