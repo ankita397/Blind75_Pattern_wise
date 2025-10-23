@@ -15,3 +15,11 @@ Goal: Find the Lowest Common Ancestor (LCA) of two nodes in a BST.
   Time Complexity: O(H), where H is the height of the tree.
     Best case: O(logn) for balanced trees.
     Worst case: O(n) for unbalanced trees.
+
+Inorder traversal of a BST → sorted order
+    - Use a counter to track the rank of each node during traversal
+          
+            count++;
+            if(count == k){
+                result = root.val;
+            }
