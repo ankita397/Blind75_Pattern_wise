@@ -1,0 +1,42 @@
+https://leetcode.com/problems/combination-sum/description/
+
+https://www.youtube.com/watch?v=OyZFFqQtu98
+
+Input : TreeNode root
+Keywords :  all unique combinations with constraint like sum == target => backtracking
+Constraints : 1 <= candidates.length <= 30 => exponential should be ok (2^n)
+
+//Approach - Recursion + Pruning = backtracking - [Take or not take]
+
+TC ~  O(2^(target)) (exponential in terms of target)
+SC =  O(target + 2^(target) (The sc is O(target) for the recursion stack and temporary list, plus O(2^(target)) for storing all valid combinations in the result list.
+
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> resultList = new ArrayList<List<Integer>>();
+        List<Integer> tempList = new ArrayList<>();
+        findCombinations(0, candidates, target, resultList, tempList);
+        return resultList;
+    }
+
+    private void findCombinations(int index, int[] candidates, int target, 
+                List<List<Integer>> resultList,  List<Integer> tempList){
+        int n = candidates.length;
+        //base condition
+        if(index == n){ // end of array
+            if(target == 0){ // no remaining target
+                resultList.add(new ArrayList<Integer>(tempList));
+            } 
+            return;
+        }
+
+        if(candidates[index] <= target){//take
+            tempList.add(candidates[index]); 
+            findCombinations(index, candidates, target - candidates[index], resultList, tempList);
+            tempList.remove(tempList.size() - 1); Backtrack: Remove the last added element.
+        }
+
+        findCombinations(index+1, candidates, target, resultList, tempList);// not take
+    }
+}
