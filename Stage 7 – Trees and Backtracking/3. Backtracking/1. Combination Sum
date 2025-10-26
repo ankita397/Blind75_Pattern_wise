@@ -40,3 +40,15 @@ class Solution {
         findCombinations(index+1, candidates, target, resultList, tempList);// not take
     }
 }
+
+
+Why DP isn’t ideal for Combination Sum?
+
+DP could be used if you just want the number of ways to sum to target.
+Example: “How many ways can I sum [2,3,6,7] to 7?”
+→ Here, a 1D DP array works.
+
+But if you need all unique combinations, DP becomes messy because:
+You’d have to store lists of combinations in every DP cell, not just counts.
+Combining these lists for every subproblem leads to high space complexity and hard-to-manage duplicates.
+Backtracking is simpler, intuitive, and more memory-efficient for this.
