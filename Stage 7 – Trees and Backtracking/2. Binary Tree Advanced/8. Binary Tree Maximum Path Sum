@@ -1,0 +1,72 @@
+https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
+
+https://www.youtube.com/watch?v=WszrfSwMz58
+
+
+Input : TreeNode
+Keywords : Binary tree, Path, Path sum, Maximum path sum
+Constraints : The number of nodes in the tree is in the range [1, 3 * 10^4].
+            -1000 <= Node.val <= 1000
+
+//Approach - DFS
+
+//Using a single-element array to store the maximum path sum
+
+//TC = O(n)
+//SC = O(H) - recursive stack
+
+class Solution {
+    int max = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxPath(root);
+        return max;
+    }
+
+    private int maxPath(TreeNode node){
+        if(node == null){
+            return 0;
+        }
+
+        // Recursively get the maximum sum from the left and right subtrees
+        int maxLeftSum = Math.max(0, maxPath(node.left));// Ignore negative paths
+        int maxRightSum = Math.max(0, maxPath(node.right));// Ignore negative paths
+
+        // Update the global max with the sum of the current node and both subtrees
+        max = Math.max(max, maxLeftSum + maxRightSum + node.val);
+
+        // Return the maximum path sum that includes the current node and one of its subtrees(longer one)
+        return node.val + Math.max(maxLeftSum, maxRightSum);
+    }
+}
+
+
+//Avoid global variable by using max[0] as max and pass array object to the helper
+
+That means both methods (maxPathSum and maxPath) are referring to the same array object in memory, 
+so if you modify max[0] inside the helper, the change is visible to the caller.
+
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        int[] max = new int[1];
+        max[0] = Integer.MIN_VALUE;
+
+        maxPath(root, max);
+        return max[0];
+    }
+
+    private int maxPath(TreeNode node, int[] max){
+        if(node == null){
+            return 0;
+        }
+
+        // Recursively get the maximum sum from the left and right subtrees
+        int maxLeftSum = Math.max(0, maxPath(node.left, max));// Ignore negative paths
+        int maxRightSum = Math.max(0, maxPath(node.right, max));// Ignore negative paths
+
+        // Update the global max with the sum of the current node and both subtrees
+        max[0] = Math.max(max[0], maxLeftSum + maxRightSum + node.val);
+
+        // Return the maximum path sum that includes the current node and one of its subtrees(bigger one)
+        return node.val + Math.max(maxLeftSum, maxRightSum);
+    }
+}
