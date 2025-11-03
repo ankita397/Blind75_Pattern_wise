@@ -1,5 +1,7 @@
 https://leetcode.com/problems/coin-change/description/
 
+https://www.youtube.com/watch?v=NNcN5X1wsaw
+
 This can be solved using 1D as well as 2D DP as this is Unbounded Knapsack. [Use 1D]
 This is a variation of unbounded knapsack.
 2D approach : https://github.com/ankita397/Blind75_NC/blob/main/13.%201D%20Dynamic%20Programming/322.%20Coin%20Change
