@@ -15,7 +15,7 @@ SC = O(1)
 
 class Solution {
     public int climbStairs(int n) {
-        return countSteps(n);
+        return countSteps(n); // n is the only changing variable
     }
     private int countSteps(int index){
         //base
