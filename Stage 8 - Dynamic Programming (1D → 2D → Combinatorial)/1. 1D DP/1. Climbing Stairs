@@ -1,0 +1,87 @@
+https://leetcode.com/problems/climbing-stairs/description/
+
+https://www.youtube.com/watch?v=mLfjzJsN8us
+
+Input : int
+Keywords : count all ways => recursion/dp
+Constraints : 1 <= n <= 45 => O(n²), O(n log n), O(n)
+
+
+Approach - DP - Recursion -> Memoization -> Tabulation -> Space optimization
+
+//Recursion
+TC = O(2^n) - TLE
+SC = O(1)
+
+class Solution {
+    public int climbStairs(int n) {
+        return countSteps(n);
+    }
+    private int countSteps(int index){
+        //base
+        if(index == 0 || index == 1){ // no stairs left or only 1 left to climb
+            return 1;
+        }
+
+        return countSteps(index-1) + countSteps(index-2);
+    }
+}
+
+//Memoization 
+TC = O(n)
+SC = O(n) + O(n) - recursion stack space + dp array
+class Solution {
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        for(int i = 0; i < n+1; i++){//dp.length = n+1
+            dp[i] = -1;
+        }
+        return countSteps(n, dp);
+    }
+    private int countSteps(int index, int[] dp){
+        //base
+        if(index == 0 || index == 1){
+            return 1;
+        }
+
+        if(dp[index] != -1){
+            return dp[index];
+        }
+
+        return dp[index] = countSteps(index-1, dp) + countSteps(index-2, dp);
+    }
+}
+
+//Tabulation - no recursion(single method)  
+TC = O(n)
+SC = O(n) - dp array
+
+class Solution {
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        
+        //base case - One way to stay at ground level or reach the first step
+        dp[0] = dp[1] = 1;
+        for(int i = 2; i < n+1; i++){
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
+    }
+}
+
+//Space Optimization  
+TC = O(n) 
+SC = O(1) 
+class Solution {
+    public int climbStairs(int n) {
+        int prev = 1;
+        int prev1 = 1;
+
+        for(int i = 2; i < n+1; i++){
+            int curr = prev+prev1;
+            prev1 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+}
