@@ -1,0 +1,208 @@
+https://leetcode.com/problems/house-robber-ii/description/
+
+https://www.youtube.com/watch?v=3WaxQMELSkw - refer 198. House Robber first
+
+Input : int
+Keywords : max amount(optimize), adjacent houses have security systems(constraint), houses in circle(first and last can't be taken) => recursion/dp 
+Constraints : 1 <= nums.length <= 100 => O(n²), O(n log n), O(n)
+              0 <= nums[i] <= 1000
+
+INTUITION : Both first and last house cannot be robbed together as they are adjacent.
+            So either first will be part of ans or last will be part of our ans.
+            We can solve excluding first, or last and take the max.
+
+//Recursion 
+TC = O(2^n) - TLE
+SC = O(n) (2 arrays + recursion stack)
+
+class Solution {
+    public int rob(int[] nums) {
+
+        int n = nums.length;
+        if(n == 1){// only one house means only that will be robbed
+            return nums[0];
+        }
+        int[] nums_leavingFirstHouse = new int[n];
+        int[] nums_leavingLastHouse = new int[n];
+
+        for(int i = 0; i < n; i++){
+            if(i != 0){
+                nums_leavingFirstHouse[i] = nums[i];
+            }
+            if(i != n-1){
+                nums_leavingLastHouse[i] = nums[i];
+            }
+        }
+
+        int max_leavingFirstHouse = maxRobbedAmt(n-1, nums_leavingFirstHouse);
+        int max_leavingLastHouse = maxRobbedAmt(n-1, nums_leavingLastHouse);
+
+        return Math.max(max_leavingFirstHouse, max_leavingLastHouse);
+    }
+
+    private int maxRobbedAmt(int index, int[] nums){
+        //base
+        if(index == 0){
+            return nums[index];
+        }
+        if(index < 0){
+            return 0;
+        }
+        int robbed = nums[index] + maxRobbedAmt(index-2, nums);
+        int notRobbed =  maxRobbedAmt(index-1, nums);
+
+        return Math.max(robbed, notRobbed);
+    }
+}
+
+//Memoization 
+TC = O(n)
+SC = O(n)+ O(n) => arrays, recursion stack space
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n == 1){// only one house means only that will be robbed
+            return nums[0];
+        }
+        int[] nums_leavingFirstHouse = new int[n];
+        int[] nums_leavingLastHouse = new int[n];
+
+        for(int i = 0; i < n; i++){
+            if(i != 0){
+                nums_leavingFirstHouse[i] = nums[i];
+            }
+            if(i != n-1){
+                nums_leavingLastHouse[i] = nums[i];
+            }
+        }
+
+        int[] dp1 = new int[n+1];
+        int[] dp2 = new int[n+1];
+        for(int i = 0; i < n+1; i++){
+            dp1[i] = -1;
+            dp2[i] = -1;
+        }
+
+        int max_leavingFirstHouse = maxRobbedAmt(n-1, nums_leavingFirstHouse, dp1);
+        int max_leavingLastHouse = maxRobbedAmt(n-1, nums_leavingLastHouse, dp2);
+
+        return Math.max(max_leavingFirstHouse, max_leavingLastHouse);
+    }
+
+    private int maxRobbedAmt(int index, int[] nums, int[] dp){
+        //base
+        if(index == 0){
+            return nums[index];
+        }
+        if(index < 0){
+            return 0;
+        }
+        if(dp[index] != -1){
+            return dp[index];
+        }
+
+        int robbed = nums[index] + maxRobbedAmt(index-2, nums, dp);
+        int notRobbed =  maxRobbedAmt(index-1, nums, dp);
+
+        return dp[index] = Math.max(robbed, notRobbed);
+    }
+}
+
+//Tabulation  
+TC = O(n) 
+SC = O(n) => no recursion stack space
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n == 1){// only one house means only that will be robbed
+            return nums[0];
+        }
+        int[] nums_leavingFirstHouse = new int[n];
+        int[] nums_leavingLastHouse = new int[n];
+
+        for(int i = 0; i < n; i++){
+            if(i != 0){
+                nums_leavingFirstHouse[i] = nums[i];
+            }
+            if(i != n-1){
+                nums_leavingLastHouse[i] = nums[i];
+            }
+        }
+
+        int max_leavingFirstHouse = maxRobbedAmt(nums_leavingFirstHouse);
+        int max_leavingLastHouse = maxRobbedAmt(nums_leavingLastHouse);
+
+        return Math.max(max_leavingFirstHouse, max_leavingLastHouse);
+    }
+
+    private int maxRobbedAmt(int[] nums){
+        int n = nums.length;
+        int[] dp = new int[n+1];
+        //base
+        dp[0] = nums[0];
+        int robbed = 0;
+        int notRobbed = 0;
+        for(int index = 1; index < n; index++){
+            robbed = nums[index];
+            if(index > 1){ //if negative i.e., i <= 1, dp[1-2]=dp[-1] should not be added
+                        //can't just start loop from 2 since we still need to handlle for dp[1]
+                robbed = robbed + dp[index-2];
+            }
+
+            notRobbed = dp[index-1];
+            dp[index] = Math.max(robbed, notRobbed);
+        }
+        return dp[n-1];
+    }
+}
+
+//Space Optimization 
+TC = O(n)
+SC = O(1)
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n == 1){// only one house means only that will be robbed
+            return nums[0];
+        }
+        int[] nums_leavingFirstHouse = new int[n];
+        int[] nums_leavingLastHouse = new int[n];
+
+        for(int i = 0; i < n; i++){
+            if(i != 0){
+                nums_leavingFirstHouse[i] = nums[i];
+            }
+            if(i != n-1){
+                nums_leavingLastHouse[i] = nums[i];
+            }
+        }
+
+        int max_leavingFirstHouse = maxRobbedAmt(nums_leavingFirstHouse);
+        int max_leavingLastHouse = maxRobbedAmt(nums_leavingLastHouse);
+
+        return Math.max(max_leavingFirstHouse, max_leavingLastHouse);
+    }
+
+    private int maxRobbedAmt(int[] nums){
+        int n = nums.length;
+        int prev = nums[0];
+        int prev1 = 0;
+        int robbed = 0;
+        int notRobbed = 0;
+        for(int index = 1; index < n; index++){
+            int curr = 0;
+            robbed = nums[index];
+            if(index > 1){ //if negative i.e., i <= 1, dp[1-2]=dp[-1] should not be added
+                        //can't just start loop from 2 since we still need to handlle for dp[1]
+                robbed = robbed + prev1;
+            }
+
+            notRobbed = prev;
+            curr = Math.max(robbed, notRobbed);
+            prev1 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+}
