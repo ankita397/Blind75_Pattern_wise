@@ -1,1 +1,40 @@
+https://leetcode.com/problems/jump-game/description/
+https://www.youtube.com/watch?v=tZAa_jJ3SwQ
 
+Input : Array
+Keywords : maximum jump length (maximum operations) => Greedy
+Constraints: 1 <= nums.length <= 10^4 => O(n) , O(nlogn)
+             0 <= nums[i] <= 10^5 
+
+Intuition:
+You track the farthest index you can reach from each index.
+If at any point you can't move forward (i.e., i > maxIndex), return false.
+If you can reach or exceed the last index, return true.
+
+Key observation:
+If array does not have any 0's, we can definitely reach the end.
+If array has 0's then we just need to see if we can cross 0's index.
+
+//TC = O(n)
+//SC = O(1)
+
+class Solution {
+    public boolean canJump(int[] nums) {
+        int maxIndex = 0; // max index that can be reached
+        for(int i = 0; i < nums.length; i++){
+            // If the current index is greater than the maximum reachable index
+            // it means we cannot move forward and should return false
+            if (i > maxIndex) {
+                return false;
+            }
+
+            // Update the maximum index that can be reached by comparing
+            // the current maxIndex with the sum of the current index and the
+            // maximum jump from that index
+            maxIndex = Math.max(maxIndex, i + nums[i]); // i + nums[i] = max jump from i
+        }
+
+        // If we complete the loop,it means we did not return false and we can reach the last index
+        return true;
+    }
+}
