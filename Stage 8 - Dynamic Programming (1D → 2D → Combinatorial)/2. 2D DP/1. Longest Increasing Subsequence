@@ -1,0 +1,169 @@
+https://leetcode.com/problems/longest-increasing-subsequence/
+
+https://www.youtube.com/watch?v=ekcwMsSIzVc&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=42
+
+Input : array
+Keywords : subsequence, longest increasing => recursion/dp 
+Constraints : 1 <= nums.length <= 2500 
+            -10^4 <= nums[i] <= 10^4 => O(n²), O(n log n), O(n)
+
+//Recursion
+//1. Express everything in terms of index
+//2. Try all possible ways
+//3. Find max length
+
+//Approach - Take/Not take
+//For taking current index element, one must know what was taken previously(previous index).
+//prevInd represents the index of the last element included in the current increasing subsequence.
+
+//TC - O(2^n)
+//SC - O(n) - recursive stack
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        return longestLength(0, -1, nums);
+    }
+    private int longestLength(int ind, int prevInd, int[] nums){
+       //base case
+        if(ind == nums.length){
+            return 0;
+        }
+        int maxLen = Integer.MIN_VALUE;
+        int notTake = 0 + longestLength(ind+1, prevInd,nums);//current index moves to next element but prevIndex remains same since we did "not take".
+        int take = 0;
+        if(prevInd == -1 || nums[ind] > nums[prevInd]){// We "take" an element only when current element is greater that prev element or when we are at the starting index.
+            take = 1 + longestLength(ind+1, ind,nums);// current index becomes previous index as we take the element in current index
+        }
+        maxLen = Math.max(take, notTake);
+        return maxLen;
+    }
+}
+
+//Memoization
+//TC = O(n*n) = O(n^2)
+//SC = O(n*n) + O(n) - dp array + recursion stack space
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n][n+1];// 2D as our variables are ind and prevInd (2 changing parameters) 
+        //n+1 = because we need to do a coordinate shift since we cannot start prevInd from -1. It used to start from -1 and go till n-1 in recursion. Now, we start it from 0 and go till n;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                dp[i][j] = -1;
+            }
+        }
+        return longestLength(0, -1, nums, dp);
+    }
+    private int longestLength(int ind, int prevInd, int[] nums, int[][] dp){
+       //base case
+        if(ind == nums.length){
+            return 0;
+        }
+        if(dp[ind][prevInd+1] != -1){
+            return dp[ind][prevInd+1];
+        }
+        int maxLen = 1;// at least 1 element can be taken
+        int notTake = 0 + longestLength(ind+1, prevInd,nums, dp);/
+        int take = 0;
+        if(prevInd == -1 || nums[ind] > nums[prevInd]){
+            take = 1 + longestLength(ind+1, ind, nums, dp);
+        }
+        maxLen = Math.max(take, notTake);
+        return dp[ind][prevInd+1] = maxLen;
+    }
+}
+
+//Tabulation
+//TC = O(n*n) = O(n^2)
+//SC = O(n*n) dp array
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n+1][n+1];//For tabulation, we also use index + 1 to handle the base case when index == n.
+        
+        // Fill dp from right to left
+        for(int index = n-1; index >= 0; index--){
+            for(int prevIndex = index-1; prevIndex >= -1; prevIndex--){
+                int maxLen = Integer.MIN_VALUE;
+                int notTake = dp[prevIndex+1][index+1];//current index moves to next element but prevIndex remains same since we did "not take".
+                int take = 0;
+                if(prevIndex == -1 || nums[prevIndex] < nums[index]){
+                    take = 1 + dp[index+1][index+1];
+                }
+                maxLen = Math.max(take, notTake);
+                dp[prevIndex+1][index] = maxLen;
+            }
+        }
+        return dp[-1 + 1][0];// equivalent to maxSubsequenceLength(-1, 0, nums)
+    }
+}
+
+//Space Optimization
+//TC = O(n*n) = O(n^2)
+//SC = O(n) * 2 - curr + next arrays
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] curr = new int[n+1];
+        int[] next = new int[n+1];
+        // Fill dp from right to left
+        for(int index = n-1; index >= 0; index--){
+            for(int prevIndex = index-1; prevIndex >= -1; prevIndex--){
+                int maxLen = Integer.MIN_VALUE;
+                int notTake = next[prevIndex+1];
+                int take = 0;
+                if(prevIndex == -1 || nums[prevIndex] < nums[index]){
+                    take = 1 + next[index+1];
+                }
+                maxLen = Math.max(take, notTake);
+                curr[prevIndex+1] = maxLen;
+            }
+            next = curr;
+        }
+        return curr[-1 + 1];// equivalent to maxSubsequenceLength(-1, 0, nums)
+    }
+}
+
+//Binary Search - optimal
+
+https://www.youtube.com/watch?v=on2hvxBXJH4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=44
+
+INTUITION : Replacing an element in nums with a smallest value that is ≥ the element keeps the same-length subsequence possible while allowing future elements
+to potentially extend it, so the LIS length is preserved.
+
+//TC = O(n log n)
+//SC = O(n) 
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] lisArray = new int[n];
+        int lisLen = 0;
+
+        for(int num : nums){
+            if(lisLen == 0 || num > lisArray[lisLen - 1]){
+                lisArray[lisLen] = num; // extend LIS directly - attach element to end of lis array
+                lisLen++;
+            }else{
+                // Binary search only when num is not greater than last element
+                // lisArray is sorted till now so BS is possible
+                int index = binarySearch(lisArray, 0, lisLen-1, num);
+                lisArray[index] = num; // replace with smallest value that is ≥ the element to keep the same-length subsequence
+            }
+        }
+        return lisLen;
+    }
+    private int binarySearch(int[] arr, int low, int high, int target){
+        while(low <= high){
+            int mid = (low+high)/2;
+            if(arr[mid] == target){
+                return mid;
+            }else if(arr[mid] > target){
+                high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+}
+
+
