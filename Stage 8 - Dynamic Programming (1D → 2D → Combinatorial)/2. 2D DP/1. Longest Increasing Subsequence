@@ -123,7 +123,7 @@ class Solution {
     }
 }
 
-//Binary Search - optimal
+//Binary Search - optimal (just for length and not for getting the subsequence)
 
 https://www.youtube.com/watch?v=on2hvxBXJH4&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81PMMY&index=44
 
