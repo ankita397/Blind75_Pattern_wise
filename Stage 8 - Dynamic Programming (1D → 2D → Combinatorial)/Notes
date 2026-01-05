@@ -1,1 +1,31 @@
+🔁 Recursion / DP Direction Cheat Sheet (Expanded)
+| Problem Type               | Direction            | Typical State               | Key Recurrence Idea     | Common Examples                             | Intuition Hook                 |
+| -------------------------- | -------------------- | --------------------------- | ----------------------- | ------------------------------------------- | ------------------------------ |
+| **Pick / Not Pick**        | ➡️ Forward           | `f(i, prev)` or `f(i, sum)` | Take current or skip    | LIS, Subsets, Combination Sum, 0/1 Knapsack | *“Decide now, move on”*        |
+| **Sequence Alignment**     | ⬅️ Backward (prefix) | `f(i, j)`                   | Match → diag, else skip | LCS, Edit Distance, SCS                     | *“Compare shorter prefixes”*   |
+| **Suffix Alignment (alt)** | ➡️ Forward           | `f(i, j)`                   | Match → forward diag    | LCS (suffix version)                        | *“Compare remaining suffixes”* |
+| **Paths / Movement**       | ➡️ Forward           | `f(pos)` or `f(r, c)`       | Move to next step/cell  | Climbing Stairs, Unique Paths, Frog Jump    | *“Simulate motion”*            |
+| **Reduction / Math**       | ⬅️ Toward smaller    | `f(n)`                      | Reduce problem size     | Binary Search, Power(x,n), GCD              | *“Shrink until trivial”*       |
+| **Tree / Graph DP**        | ⬆️ Bottom-up         | `f(node)`                   | Combine children        | Tree Height, Diameter, Max Path Sum         | *“Children first”*             |
+| **Interval / Range DP**    | ↔️ Inward            | `f(l, r)`                   | Split or shrink         | Matrix Chain, Burst Balloons                | *“Solve inside first”*         |
+| **Counting DP**            | ➡️ Forward           | `f(i, count)`               | Accumulate ways         | Coin Change, Target Sum                     | *“Accumulate outcomes”*        |
+| **State Compression**      | ➡️ Forward           | `f(i, mask)`                | Add/remove bits         | Traveling Salesman, Bitmask DP              | *“Build states”*               |
 
+
+
+Typical State = what one recursive call represents in plain English
+“If I pause the recursion right here, what subproblem am I solving?”
+
+🧠 Typical DP / Recursion States — Clear Language
+| Problem Type     | Typical State | What it means (plain English)                                                                            | Example                     |
+| ---------------- | ------------- | -------------------------------------------------------------------------------------------------------- | --------------------------- |
+| Pick / Not Pick  | `f(i, prev)`  | Best answer **using elements starting at index `i`**, given last chosen element is at `prev`             | LIS                         |
+| Pick / Not Pick  | `f(i, sum)`   | Number of ways **to reach `sum` using elements starting at index `i`**                                   | Subset Sum                  |
+| Sequence Match   | `f(i, j)`     | Best match of **first `i` characters of string 1** and **first `j` characters of string 2`**             | LCS                         |
+| Sequence Match   | `f(i, j)`     | Minimum operations **to convert first `i` characters of string 1 into first `j` characters of string 2** | Edit Distance               |
+| Paths / Movement | `f(pos)`      | Number of ways or cost **to reach the destination starting from position `pos`**                         | Climbing Stairs             |
+| Grid Paths       | `f(r, c)`     | Number of ways or cost **to reach the destination starting from cell `(r, c)`**                          | Unique Paths                |
+| Tree DP          | `f(node)`     | Answer for **the subtree rooted at this node**                                                           | Tree Height                 |
+| Interval DP      | `f(l, r)`     | Answer for **the subarray or substring from index `l` to `r` inclusive**                                 | Matrix Chain Multiplication |
+| Knapsack         | `f(i, cap)`   | Maximum value **using items starting at index `i` with remaining capacity `cap`**                        | 0/1 Knapsack                |
+| Counting / Sum   | `f(i, cnt)`   | Number of ways **to reach `cnt` using elements starting at index `i`**                                   | Coin Change                 |
