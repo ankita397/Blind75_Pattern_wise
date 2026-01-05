@@ -4,8 +4,8 @@ https://www.youtube.com/watch?v=ekcwMsSIzVc&list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81P
 
 Input : array
 Keywords : subsequence, longest increasing => recursion/dp 
-Constraints : 1 <= nums.length <= 2500 
-            -10^4 <= nums[i] <= 10^4 => O(n²), O(n log n), O(n)
+Constraints : 1 <= nums.length <= 2500  => O(n²), O(n log n), O(n)
+            -10^4 <= nums[i] <= 10^4
 
 //Recursion
 //1. Express everything in terms of index
