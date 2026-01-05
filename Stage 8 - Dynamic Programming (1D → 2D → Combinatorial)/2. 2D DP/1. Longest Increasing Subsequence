@@ -79,7 +79,8 @@ class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
         int[][] dp = new int[n+1][n+1];//For tabulation, we also use index + 1 to handle the base case when index == n.
-        
+             // [We do a shifting of index since an array cannot have negative index.] ####### IMP
+            
         // Fill dp from right to left
         for(int index = n-1; index >= 0; index--){
             for(int prevIndex = index-1; prevIndex >= -1; prevIndex--){
