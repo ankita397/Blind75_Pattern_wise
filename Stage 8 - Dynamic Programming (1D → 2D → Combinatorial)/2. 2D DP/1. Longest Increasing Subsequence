@@ -104,7 +104,8 @@ class Solution {
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        int[] curr = new int[n+1]; // store only 1 row at a time, so length will be column size
+        // store only 1 row at a time, so length will be column size
+        int[] curr = new int[n+1]; // For LIS, loop from right to left, so curr can be declared outside loop
         int[] next = new int[n+1];
         // Fill dp from right to left
         for(int index = n-1; index >= 0; index--){
