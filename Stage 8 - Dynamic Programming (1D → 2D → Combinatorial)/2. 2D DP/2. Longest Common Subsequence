@@ -1,0 +1,71 @@
+
+
+
+
+//Recursion
+//1. Express everything in terms of index
+//2. Try all possible subsequences
+//3. Find longest common
+
+//Approach - Take/Not take
+//For LCS, at each pair of indices (ind1, ind2), we decide to take the characters if they match, or skip one from either string otherwise.
+
+//TC - O(2^n + 2^m)
+//SC - O(n+m) - recursive stack
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n = text1.length();
+        int m = text2.length();
+        return lcs(text1, n-1, text2, m-1);
+    }
+
+    private int lcs(String text1, int ind1, String text2, int ind2){
+        //base case
+        //if either of the string ends (index becomes negative)
+        if(ind1 < 0 || ind2 < 0){
+            return 0;
+        }
+        if(text1.charAt(ind1) == text2.charAt(ind2)){ // matching - add to length and move both indexes inward
+            return 1 + lcs(text1, ind1-1, text2, ind2-1);
+        }else{ // non-matching - move either indexes inward and take max, without adding to length
+            return Math.max(lcs(text1, ind1-1, text2, ind2) , lcs(text1, ind1, text2, ind2-1));
+        }
+    }
+}
+
+//Memoization
+//TC = O(n*m) 
+//SC = O(n*m) + O(n+m) - dp array + recursion stack space 
+        =>  O(n+m) stack space as there can be n deletions from text1 and m deletions from text2 till we get either string to be empty
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n = text1.length();
+        int m = text2.length();
+        int[][] dp = new int[n][m];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                dp[i][j] = -1;
+            }
+        }
+        return lcs(text1, n-1, text2, m-1, dp);
+    }
+
+    private int lcs(String text1, int ind1, String text2, int ind2, int[][] dp){
+        //base case
+        //if either of the string ends (index becomes negative)
+        if(ind1 < 0 || ind2 < 0){
+            return 0;
+        }
+        if(dp[ind1][ind2] != -1){
+            return dp[ind1][ind2];
+        }
+        if(text1.charAt(ind1) == text2.charAt(ind2)){ // matching - add to length and move both indexes inward
+            return dp[ind1][ind2] = 1 + lcs(text1, ind1-1, text2, ind2-1, dp);
+        }else{ // non-matching - move either indexes inward and take max, without adding to length
+            return dp[ind1][ind2] = Math.max(lcs(text1, ind1-1, text2, ind2, dp) , lcs(text1, ind1, text2, ind2-1, dp));
+        }
+    }
+}
+
+
+
