@@ -1,1 +1,154 @@
+https://leetcode.com/problems/decode-ways/description/
 
+
+Input : string
+Keywords : different way to decode => recursion/dp 
+Constraints: 1 <= s.length <= 100 => O(n²), O(n log n), O(n)
+
+Approach : At each index, we choose to decode one digit or two digits if they form a valid letter.
+We recursively count the ways for the remaining string, and the total ways are the sum of these choices, 
+with reaching the end meaning one valid decoding.
+
+
+//Recursion
+//TC = O(2^n) - TLE
+//SC = O(n)
+
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        return countDecodings(s, n, 0);
+    }
+
+    public int countDecodings(String s, int len, int pos) {
+        // Base case: if we reached the end of the string, there's one way to decode (an empty string).
+        if (pos == len) {
+            return 1;
+        }        
+
+        int count = 0;
+
+        if (s.charAt(pos) == '0') {
+            return 0;
+        }else{
+            // One step forward
+            count += countDecodings(s, len, pos + 1);
+
+            // Two steps forward if possible (check two-digit number from pos)
+            if (pos + 1 < len && Integer.parseInt(s.substring(pos, pos + 2)) <= 26) {
+                count += countDecodings(s, len, pos + 2);
+            }
+        }
+        return count;
+    }
+}
+
+//Memoization
+//TC = O(n)
+//SC = O(n)+ O(n)
+
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n]; // only changing state is index
+        for(int i = 0; i < n; i++){
+            dp[i] = -1;
+        }
+        return numberOfDecodings(s, 0, n, dp);
+    }
+    private int numberOfDecodings(String s, int index, int n, int[] dp){
+        // Base case: if we reached the end of the string, there's one way to decode (an empty string).
+        if(index == n){
+            return 1;
+        }
+
+        // Base case: if the current position is leading to an invalid string, return 0.
+        if(s.charAt(index) == '0'){
+            return 0;
+        }
+
+        if(dp[index] != -1){
+            return dp[index];
+        }
+
+        int count = 0;
+
+        //Single digit
+        //We don’t need a boundary check for the single-digit case because the base case already handles it safely.
+        count = count + numberOfDecodings(s, index+1, n, dp); 
+
+        //Two-digit
+        if(index+2 <= n){
+            String next2DigitStr = s.substring(index, index+2);
+            int next2Digit = Integer.parseInt(next2DigitStr);
+            if(next2Digit <= 26){
+                count = count + numberOfDecodings(s, index+2, n, dp);
+            }
+        }
+        return dp[index] = count;
+    }
+}
+
+//Tabulation
+//TC = O(n)
+//SC = O(n) - dp array only (no recursion stack)
+
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n+1]; // only changing state is index
+        
+        // Base case: if we reached the end of the string, there's one way to decode (an empty string).
+        dp[n] = 1;
+
+        for(int index = n-1; index >=0; index--){
+            if(s.charAt(index) == '0'){
+                dp[index] = 0;
+            }else{
+                dp[index] = dp[index] + dp[index+1];
+                if(index+2 <= n){
+                    String next2DigitStr = s.substring(index, index+2);
+                    int next2Digit = Integer.parseInt(next2DigitStr);
+                    if(next2Digit <= 26){
+                        dp[index] = dp[index] + dp[index+2];
+                    }
+                }
+            }
+        }
+        return dp[0];
+    }
+}
+
+//Space Optimization
+//TC = O(n)
+//SC = O(1)
+
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        
+        // Base case: if we reached the end of the string, there's one way to decode (an empty string).
+        int next = 1;// dp[n] 
+
+        int nextNext = 0;//dp[n+1] - this is an initialization required for dp[index+2]
+        for(int index = n-1; index >=0; index--){
+            int curr = 0;
+            if(s.charAt(index) == '0'){
+                curr = 0;
+            }else{
+                curr = curr + next;
+                if(index+2 <= n){
+                    String next2DigitStr = s.substring(index, index+2);
+                    int next2Digit = Integer.parseInt(next2DigitStr);
+                    if(next2Digit <= 26){
+                        curr = curr + nextNext;
+                    }
+                }
+            }
+            // shift just like dp array moving left
+            nextNext = next;
+            next = curr;
+        }
+        return next;
+    }
+}
