@@ -1,7 +1,7 @@
-Recursion → find the recurrence.
-Memoization → store results in a table/array to avoid recomputation.
-Tabulation → iterate from base cases up. (bottom up)
-Space Optimization → only keep what is needed from previous states (usually last 1–2 rows/columns for 1D DP; last row for 2D DP).
+Recursion → find the recurrence. -> Simple, exponential time
+Memoization → store results in a table/array to avoid recomputation. -> Recursion + array
+Tabulation → iterate from base cases up. (bottom up) -> Iterative, avoids recursion
+Space Opt → only keep what is needed from previous states (usually last 1–2 rows/cols for 1D DP; last row for 2D DP). -> Only keeps last few states
 
 🔁 Recursion / DP Direction Cheat Sheet (Expanded)
 | Problem Type               | Direction            | Typical State               | Key Recurrence Idea     | Common Examples                             | Intuition Hook                 |
