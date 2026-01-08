@@ -1,0 +1,108 @@
+https://leetcode.com/problems/word-break/description/
+
+Source : ChatGPT
+
+Input : string, array
+Keywords : segmented in different ways => recursion/dp
+
+Approach :
+Start from the beginning of the string, try all possible splits, and whenever the left part is a dictionary word, 
+check if the remaining string can be broken the same way recursively.
+
+Example: s = "leetcode" , wordDict = ["leet", "code"]
+For "leetcode", we try prefixes "l", "le", "lee", and "leet", and "leet" is valid.
+We then move to "code" and try "c", "co", "cod", "code", where "code" is valid.
+Since the string is fully segmented, the answer is true.
+
+//Recursion - TLE
+//TC - O(2^n)
+//SC - O(n) - recursive stack
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordSet = new HashSet<String>(wordDict); // Converting to set will help in O(1) lookup
+        return canBreak(s,0,wordSet); // 0 represents 1st char in 's'. So we start from 1st char
+    }
+    private boolean canBreak(String s, int stringStart, Set<String> wordSet){
+        //base case
+        if(stringStart == s.length()){ //string is over
+            return true;
+        }
+
+        //Extract substring as prefixes to check if present in the dictionary
+        for(int stringEnd = stringStart + 1; stringEnd <= s.length(); stringEnd++){
+            String prefix = s.substring(stringStart, stringEnd);
+            if(wordSet.contains(prefix)){
+                if(canBreak(s, stringEnd,wordSet)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+//Memoization
+//TC - O(n*n) = O(n^2) - loop length * recursion stack length
+//SC - O(n) - recursive stack
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordSet = new HashSet<String>(wordDict); // Converting to set will help in O(1) lookup
+        Boolean[] dp = new Boolean[s.length()];// can't be boolean as we need comparison with null - can be n+1 also even though n is enough
+        return canBreak(s,0,wordSet, dp); // 0 represents 1st char in 's'. So we start from 1st char
+    }
+    private boolean canBreak(String s, int stringStart, Set<String> wordSet, Boolean[] dp){
+        //base case
+        if(stringStart == s.length()){ //string is over
+            return true;
+        }
+
+        if(dp[stringStart] != null){
+            return dp[stringStart];
+        }
+
+        //Extract substring as prefixes to check if present in the dictionary
+        for(int stringEnd = stringStart + 1; stringEnd <= s.length(); stringEnd++){
+            String prefix = s.substring(stringStart, stringEnd);
+            if(wordSet.contains(prefix)){
+                if(canBreak(s, stringEnd,wordSet, dp)){
+                    dp[stringStart] = true;
+                    return true;
+                }
+            }
+        }
+        dp[stringStart] = false;
+        return false;
+    }
+}
+
+//Tabulation - may not be needed, good to know
+//TC - O(n^2) - loops
+//SC - O(n) - dp array
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordSet = new HashSet<String>(wordDict); // Converting to set will help in O(1) lookup
+        // can be boolean as we do not need comparison with null
+        boolean[] dp = new boolean[s.length() + 1];// has to be n+1 for tabulation to capture the final state
+
+        // Base case: Empty string can always be segmented (dp[0] = true)
+        dp[0] = true;
+
+        // Build dp array from left to right
+       for(int i = 0; i <= s.length(); i++){
+            // Try every possible split point j
+            for(int j = 0; j < i; j++){
+                String currentWord = s.substring(j, i);
+                // Now check:
+                // 1. dp[j] is true → means s[0..j) can be broken using dictionary
+                // 2. wordSet.contains(word) → means s[j..i) is a valid word
+                if(dp[j] && wordSet.contains(currentWord)){
+                    dp[i] = true;  // So s[0..i) can also be segmented
+                    break;         // No need to check further j values for this i
+                }
+            }
+       }
+       //The answer is whether the full string s[0..n) can be segmented
+        return dp[s.length()] ;
+    }
+}
