@@ -1,5 +1,16 @@
+https://leetcode.com/problems/unique-paths/description/
 
+https://www.youtube.com/watch?v=sdE0A2Oxofw
 
+Input : int
+Keywords : unique, paths, ways => recursion/dp 
+Constraints: 1 <= m, n <= 100 => O(n²), O(n log n), O(n)
+
+Approach : Start at the bottom right corner and try to find paths towards top left corner.
+
+//Recursion
+//TC = O(2^ (m+n)) [depth of recursion stack is m+n]
+//SC = O(m+n)
 class Solution {
     public int uniquePaths(int m, int n) {
         return countUniquePaths(m-1, n-1);
@@ -23,3 +34,99 @@ class Solution {
 
     }
 }
+
+//Memoization
+//TC = O(m*n) 
+//SC = O(m*n) + O(m+n) - dp array + recursion stack space
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                dp[i][j] = -1;
+            }
+        }
+        return countUniquePaths(m-1, n-1, dp);
+    }
+    private int countUniquePaths(int i, int j, int[][] dp){
+        //base;
+        if(i < 0 || j < 0){
+            return 0;
+        }
+        if(i == 0 && j == 0){
+            return 1;
+        }
+
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+
+        //up
+        int up = countUniquePaths(i-1, j, dp);
+
+        //left
+        int left = countUniquePaths(i, j-1, dp);
+        
+        return dp[i][j] = up + left;
+
+    }
+}
+
+//Tabulation
+//TC = O(m*n) 
+//SC = O(m*n) - dp array 
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+               //base;
+                if(i == 0 && j == 0){
+                    dp[i][j] = 1;
+                }else{
+                    int up = 0; 
+                    int left = 0;
+                    if(i > 0){
+                        up = dp[i-1][j];
+                    }
+                    if(j > 0){
+                        left = dp[i][j-1];
+                    }
+                    dp[i][j] = up + left;  
+                }
+            }
+        }
+        return dp[m-1][n-1];
+    }
+}
+
+//Space Optimization
+//TC = O(m*n) 
+//SC = O(n) - 1D array
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[] prev = new int[n];
+        for(int i = 0; i < m; i++){
+            int[] curr = new int[n];
+            for(int j = 0; j < n; j++){
+               //base;
+                if(i == 0 && j == 0){
+                    curr[j] = 1;
+                }else{
+                    int up = 0; 
+                    int left = 0;
+                    if(i > 0){
+                        up = prev[j];
+                    }
+                    if(j > 0){
+                        left = curr[j-1];
+                    }
+                    curr[j] = up + left;  
+                }
+            }
+            prev = curr;
+        }
+        return prev[n-1];
+    }
+}
+
