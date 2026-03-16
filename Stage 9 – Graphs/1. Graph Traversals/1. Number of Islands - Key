@@ -1,1 +1,76 @@
+https://leetcode.com/problems/number-of-islands/description/
 
+https://www.youtube.com/watch?v=muncqlKJrH0&list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn&index=11
+
+Input : grid
+Keywords : connecting adjacent lands , all four edges of the grid, 4-directional grid traversal
+Constraints : 1 <= m, n <= 300 => O(n^2) or O(n * m)
+
+
+Approach:  BFS or DFS [For DFS : https://github.com/ankita397/Blind75_NC/blob/main/11.%20Graphs/200.%20Number%20of%20Islands ]
+
+
+//BFS
+
+TC : O(n * m) + O(n * m) * 4 - the nested loops +  overall BFS of the matrix(neighbours)
+SC : O(n * m) + O(n * m) ~ O(n * m) => for vis array and queue
+
+class Solution {
+    public int numIslands(char[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int countIslands = 0;
+        int[][] vis = new int[n][m];
+        
+        //bfs
+        
+        for(int row = 0; row < n; row++){
+            for(int col = 0; col < m; col++){
+                if(vis[row][col] != 1 && grid[row][col] == '1'){
+                    bfs(row, col, vis, n , m, grid);
+                    countIslands++;
+                }
+            }
+        }
+        return countIslands;
+    }
+    private void bfs(int row, int col, int[][] vis, int n, int m, char[][] grid){
+        vis[row][col] = 1;
+
+        Queue<Pair> q = new LinkedList<Pair>(); //Pair is needed to store row, col pair for a cell
+        q.add(new Pair(row, col));
+
+        //Horizontal and vertical neighbours only
+        int[] delRow = {-1, 1, 0 , 0};
+        int[] delCol = {0, 0, -1 , 1};
+
+        while(!q.isEmpty()){
+            int r = q.peek().first;
+            int c = q.peek().second;
+            q.remove(); // in normal bfs traversal, we store this into bfs list first , before removing
+
+            for(int x = 0; x < 4; x++){ // x is just to traverse the arrays
+                int nrow = r + delRow[x];
+                int ncol = c + delCol[x];
+
+                // Check if the new cell is within bounds, part of the island ('1'), and not visited yet
+                if(nrow >= 0 && nrow < n && ncol >=0 && ncol < m 
+                && vis[nrow][ncol] != 1 
+                && grid[nrow][ncol] == '1'){
+                    vis[nrow][ncol] = 1;
+                    q.add(new Pair(nrow, ncol));
+                }
+            }
+            
+        }
+    }
+}
+
+class Pair{
+    int first;
+    int second;
+    public Pair(int first, int second){
+        this.first = first;
+        this.second = second;
+    }
+}
