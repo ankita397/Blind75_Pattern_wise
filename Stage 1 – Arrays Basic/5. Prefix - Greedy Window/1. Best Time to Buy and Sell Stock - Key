@@ -26,21 +26,22 @@ class Solution {
     }
 }
 
-//Optimal : If we wanna sell on i'th day, then we have to buy on the minimum price from day 0 to i-1. 
-            //So, we need to keep track of the minimum price.
+//Optimal : 
+  // Imagine you're tracking the lowest price you've seen so far
+  // At each day, you ask: "if I sell TODAY, what's my profit?"
+  // profit = today's price - lowest price seen before today
 
 //TC = O(n) 
 //SC = O(1)
 class Solution {
-    public int maxProfit(int[] prices) {
+    public int maxProfitOpt(int[] prices) {
         int maxProfit = 0;
-        int n = prices.length;
         int minPrice = Integer.MAX_VALUE;
         for(int price : prices){
-            minPrice = Math.min(minPrice, price);  // Update minPrice if we find a lower price
-            int profit = price - minPrice;  // Calculate potential profit
-            maxProfit = Math.max(maxProfit, profit);  //Calculate maxProfit
-        } 
+            minPrice = Math.min(price, minPrice);
+            int profitToday = price - minPrice;
+            maxProfit = Math.max(profitToday, maxProfit);
+        }
         return maxProfit;
     }
 }
