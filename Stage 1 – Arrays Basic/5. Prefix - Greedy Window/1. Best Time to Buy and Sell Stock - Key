@@ -38,9 +38,9 @@ class Solution {
         int maxProfit = 0;
         int minPrice = Integer.MAX_VALUE;
         for(int price : prices){
-            minPrice = Math.min(price, minPrice);
-            int profitToday = price - minPrice;
-            maxProfit = Math.max(profitToday, maxProfit);
+            minPrice = Math.min(price, minPrice); // Update minPrice if we find a lower price
+            int profitToday = price - minPrice;// Calculate potential profit today
+            maxProfit = Math.max(profitToday, maxProfit);//Calculate maxProfit
         }
         return maxProfit;
     }
