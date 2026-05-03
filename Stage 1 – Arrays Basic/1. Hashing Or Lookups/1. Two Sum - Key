@@ -27,6 +27,9 @@ class Solution {
 
 //Optimal
 
+- only when a compliment is not in map key - Add to a map of - < array element , its corresponding index >
+- return res as soon as complement is found in map key
+
 //use hash map to instantly check for difference value, map will add index of last occurrence of a num, don’t use same element twice.
 //if difference between target and current number is present among the map keys
 //if difference between target and current number is not present among the map keys, put the current number and its index in the map
